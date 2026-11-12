@@ -16,7 +16,7 @@ const root = document.getElementById('app');
 const storage = (() => {
   try {
     const store = window.localStorage;
-    store.getItem('worldly.probe');
+    store.getItem('quizly.probe');
     return store;
   } catch {
     const memory = new Map();
@@ -64,18 +64,43 @@ function show(html) {
   window.scrollTo(0, 0);
 }
 
-// Home ---------------------------------------------------------------------
+// Shared pieces ------------------------------------------------------------
 
-function segmented(action, label, options, selected) {
+const ICONS = {
+  menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+  settings: '<path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="18" r="2"/>',
+  progress: '<path d="M4 20h16"/><path d="M5 15l4-4 4 3 6-7"/>',
+  chevron: '<path d="M9 6l6 6-6 6"/>',
+  back: '<path d="M15 5l-7 7 7 7"/>',
+  close: '<path d="M6 6l12 12M18 6L6 18"/>',
+};
+const icon = (name, className = 'icon') => `<svg class="${className}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[name]}</svg>`;
+
+function navBar(title, back) {
   return `
-    <div class="setting">
-      <span class="setting-label" id="${action}-label">${label}</span>
-      <div class="segmented" role="group" aria-labelledby="${action}-label">
-        ${options.map(([value, text]) => `
-          <button class="segment" data-action="${action}" data-value="${value}" aria-pressed="${String(value) === String(selected)}">${text}</button>`).join('')}
-      </div>
+    <div class="nav-bar">
+      <button class="icon-button back-button" data-action="${back}" aria-label="Back">${icon('back')}</button>
+      <h1 class="nav-title">${escapeHtml(title)}</h1>
+      <span></span>
     </div>`;
 }
+
+// Theme ----------------------------------------------------------------------
+
+const THEME_LABELS = { system: 'System', light: 'Light', dark: 'Dark' };
+const BAR_COLORS = { light: '#f2f2f7', dark: '#000000' };
+
+function applyTheme(theme) {
+  const html = document.documentElement;
+  if (theme === 'light' || theme === 'dark') html.dataset.theme = theme;
+  else delete html.dataset.theme;
+  for (const meta of document.querySelectorAll('meta[name="theme-color"]')) {
+    const scheme = meta.media.includes('dark') ? 'dark' : 'light';
+    meta.content = BAR_COLORS[theme === 'system' ? scheme : theme];
+  }
+}
+
+// Home -----------------------------------------------------------------------
 
 function renderHome() {
   round = null;
@@ -83,51 +108,94 @@ function renderHome() {
   const best = bestScores(readHistory(storage), storage);
   const { length } = settings;
   const categories = CATEGORIES.map((category) => `
-    <section class="category">
-      <header class="category-head">
-        <span class="category-icon" aria-hidden="true">${category.icon}</span>
-        <div>
-          <h2>${escapeHtml(category.title)}</h2>
-          <p>${escapeHtml(category.blurb)}</p>
-        </div>
-      </header>
-      <div class="modes">
+    <section class="group">
+      <h2 class="group-label">${escapeHtml(category.title)}</h2>
+      <div class="card">
         ${category.modes.map((mode) => {
           const score = best.get(`${mode.id}|${length}`);
           return `
-          <button class="mode" data-action="start" data-mode="${mode.id}">
-            <span class="mode-text">
-              <span class="mode-title">${escapeHtml(mode.title)}</span>
-              <span class="mode-hint">${escapeHtml(mode.hint)}</span>
+          <button class="row mode" data-action="start" data-mode="${mode.id}">
+            <span class="row-main">
+              <span class="row-title">${escapeHtml(mode.title)}</span>
+              <span class="row-sub">${escapeHtml(mode.hint)}</span>
             </span>
-            ${score === undefined ? '' : `<span class="mode-best" aria-label="Best score ${score} of ${length}">${score}/${length}</span>`}
+            ${score === undefined ? '' : `<span class="row-value mode-best" aria-label="Best score ${score} of ${length}">${score}/${length}</span>`}
+            ${icon('chevron', 'icon chevron')}
           </button>`;
         }).join('')}
       </div>
     </section>`).join('');
 
   show(`
-    <header class="masthead">
-      <div>
-        <h1>Worldly</h1>
-        <p>${data.countries.length} countries. How many do you really know?</p>
-      </div>
-      <button class="pill-button" data-action="progress">Progress</button>
+    <header class="app-bar">
+      <h1>Quizly</h1>
+      <button class="icon-button menu-button" data-action="menu" aria-label="Menu" aria-haspopup="menu" aria-expanded="false">${icon('menu')}</button>
     </header>
-    <section class="settings" aria-label="Round settings">
-      ${segmented('set-length', 'Questions', LENGTHS.map((value) => [value, value]), settings.length)}
-      ${segmented('set-style', 'Style', Object.entries(STYLE_LABELS), settings.style)}
-      <p class="setting-hint">${escapeHtml(STYLE_HINTS[settings.style])}</p>
+    <p class="home-meta">${length} questions · ${escapeHtml(STYLE_LABELS[settings.style])}</p>
+    ${categories}
+    <div class="menu-layer" hidden>
+      <div class="menu-backdrop" data-action="close-menu"></div>
+      <div class="menu" role="menu" aria-label="Menu">
+        <button class="menu-item" role="menuitem" data-action="settings">${icon('settings')}Settings</button>
+        <button class="menu-item" role="menuitem" data-action="progress">${icon('progress')}Progress</button>
+      </div>
+    </div>`);
+}
+
+function setMenuOpen(open) {
+  const layer = root.querySelector('.menu-layer');
+  if (!layer) return;
+  layer.hidden = !open;
+  const button = root.querySelector('.menu-button');
+  button.setAttribute('aria-expanded', String(open));
+  if (open) layer.querySelector('.menu-item').focus();
+  else button.focus();
+}
+
+// Settings -------------------------------------------------------------------
+
+function segmentedRow(action, label, options, selected) {
+  return `
+    <div class="row setting-row">
+      <span class="row-title" id="${action}-label">${escapeHtml(label)}</span>
+      <div class="segmented" role="group" aria-labelledby="${action}-label">
+        ${options.map(([value, text]) => `
+          <button class="segment" data-action="${action}" data-value="${value}" aria-pressed="${String(value) === String(selected)}">${escapeHtml(text)}</button>`).join('')}
+      </div>
+    </div>`;
+}
+
+function renderSettings() {
+  view = { name: 'settings' };
+  show(`
+    ${navBar('Settings', 'home')}
+    <section class="group">
+      <h2 class="group-label">Rounds</h2>
+      <div class="card">
+        ${segmentedRow('set-length', 'Questions', LENGTHS.map((value) => [value, value]), settings.length)}
+        ${segmentedRow('set-style', 'Game mode', Object.entries(STYLE_LABELS), settings.style)}
+      </div>
+      <p class="group-note setting-hint">${escapeHtml(STYLE_HINTS[settings.style])}</p>
     </section>
-    ${categories}`);
+    <section class="group">
+      <h2 class="group-label">Appearance</h2>
+      <div class="card">
+        ${segmentedRow('set-theme', 'Theme', Object.entries(THEME_LABELS), settings.theme)}
+      </div>
+      <p class="group-note">System follows your phone's light or dark setting.</p>
+    </section>`);
 }
 
 function updateSettings(change) {
   settings = { ...settings, ...change };
   saveSettings(storage, settings);
+  if (change.theme) applyTheme(settings.theme);
   const scrollY = window.scrollY;
-  renderHome();
+  const action = Object.keys(change)[0];
+  renderSettings();
   window.scrollTo(0, scrollY);
+  // Keep keyboard focus on the control that was just used.
+  root.querySelector(`[data-action="set-${action}"][aria-pressed="true"]`)?.focus({ preventScroll: true });
 }
 
 // Quiz ---------------------------------------------------------------------
@@ -229,7 +297,7 @@ function renderQuestion() {
   const missedBefore = item.misses - (round.picked !== null && !round.lastCorrect ? 1 : 0);
   show(`
     <div class="quiz-bar">
-      <button class="icon-button" data-action="quit" aria-label="Quit to home">✕</button>
+      <button class="icon-button" data-action="quit" aria-label="Quit to home">${icon('close')}</button>
       <div class="quiz-title">${escapeHtml(modeLabel(round.modeId))}</div>
       <div class="quiz-score">Score ${session.firstTry}</div>
     </div>
@@ -296,10 +364,10 @@ function quitRound() {
 
 function resultMessage(score, total) {
   const ratio = score / total;
-  if (ratio === 1) return 'Perfect round. The world is your oyster.';
-  if (ratio >= 0.8) return 'Seasoned traveler.';
-  if (ratio >= 0.5) return 'Solid. A few more stamps in the passport.';
-  return 'Every expert started somewhere. Go again?';
+  if (ratio === 1) return 'Perfect round.';
+  if (ratio >= 0.8) return 'Great work.';
+  if (ratio >= 0.5) return 'Good effort.';
+  return 'Keep practicing.';
 }
 
 function reviewItem(question, misses, showCount) {
@@ -351,14 +419,14 @@ function finishRound() {
       <button class="link-button" data-action="progress">See your progress</button>
     </div>
     ${missed.length ? `
-      <section class="review">
-        <h2>Worth another look</h2>
-        <ul>${missed.map((question) => reviewItem(question, session.misses.get(question.code), isRepeat)).join('')}</ul>
+      <section class="group review">
+        <h2 class="group-label">To review</h2>
+        <ul class="card review-list">${missed.map((question) => reviewItem(question, session.misses.get(question.code), isRepeat)).join('')}</ul>
       </section>` : ''}`);
   round = null;
 }
 
-// Progress -----------------------------------------------------------------
+// Progress -------------------------------------------------------------------
 
 function statTile(label, value, note = '') {
   return `
@@ -369,6 +437,15 @@ function statTile(label, value, note = '') {
     </div>`;
 }
 
+function group(label, body, note = '') {
+  return `
+    <section class="group">
+      <h2 class="group-label">${escapeHtml(label)}</h2>
+      ${body}
+      ${note ? `<p class="group-note">${escapeHtml(note)}</p>` : ''}
+    </section>`;
+}
+
 function spotAnswer(spot, country) {
   if (spot.categoryId === 'capitals') return `Capital: ${country.capital}`;
   if (spot.categoryId === 'flags') return 'Flag';
@@ -377,41 +454,49 @@ function spotAnswer(spot, country) {
 }
 
 function troubleHtml(spots) {
-  if (!spots.length) return '<p class="empty-note">Nothing right now. Countries you miss show up here until you get them right.</p>';
-  return `<ul class="list">${spots.map((spot) => {
+  if (!spots.length) {
+    return '<div class="card"><div class="row empty-row">Nothing right now. Countries you miss show up here until you get them right.</div></div>';
+  }
+  return `<div class="card">${spots.map((spot) => {
     const country = byCode.get(spot.code);
     if (!country) return '';
     const sample = spot.categoryId === 'writing' ? data.samples[country.sampleKey ?? country.language] : null;
     return `
-      <li class="list-row spot">
+      <div class="row spot">
         <span class="spot-flag" aria-hidden="true">${country.flag}</span>
-        <span class="list-main">
-          <span class="list-title">${escapeHtml(country.name)}</span>
-          <span class="list-sub">${escapeHtml(spotAnswer(spot, country))}</span>
+        <span class="row-main">
+          <span class="row-title">${escapeHtml(country.name)}</span>
+          <span class="row-sub">${escapeHtml(spotAnswer(spot, country))}</span>
           ${sample ? `<span class="spot-sample">${sampleHtml(sample)}</span>` : ''}
         </span>
-        <span class="list-side">missed ${spot.missed} of ${spot.seen}</span>
-      </li>`;
-  }).join('')}</ul>`;
+        <span class="row-value">missed ${spot.missed} of ${spot.seen}</span>
+      </div>`;
+  }).join('')}</div>`;
 }
 
 function roundRow(game, withMode) {
+  const details = [withMode ? formatDate(game.at) : null, STYLE_LABELS[game.style], formatDuration(game.ms)].filter(Boolean);
   return `
-    <li class="list-row">
-      <span class="list-main">
-        <span class="list-title">${escapeHtml(withMode ? modeLabel(game.mode) : formatDateTime(game.at))}</span>
-        <span class="list-sub">${escapeHtml([withMode ? formatDate(game.at) : null, STYLE_LABELS[game.style], formatDuration(game.ms)].filter(Boolean).join(' · '))}</span>
+    <div class="row round-row">
+      <span class="row-main">
+        <span class="row-title">${escapeHtml(withMode ? modeLabel(game.mode) : formatDateTime(game.at))}</span>
+        <span class="row-sub">${escapeHtml(details.join(' · '))}</span>
       </span>
-      <span class="list-score">${game.firstTry}/${game.total}</span>
-    </li>`;
+      <span class="row-score">${game.firstTry}/${game.total}</span>
+    </div>`;
 }
 
-function barHtml(title, back) {
-  return `
-    <div class="quiz-bar">
-      <button class="icon-button" data-action="${back}" aria-label="Back">‹</button>
-      <div class="bar-title">${escapeHtml(title)}</div>
-    </div>`;
+function backupHtml(hasHistory) {
+  return group('Backup', `
+    <div class="card">
+      <div class="backup-actions">
+        <button class="button-quiet" data-action="export" ${hasHistory ? '' : 'disabled'}>Export</button>
+        <button class="button-quiet" data-action="import">Import</button>
+      </div>
+      ${hasHistory ? '<button class="row danger" data-action="clear">Delete all progress</button>' : ''}
+    </div>
+    <input type="file" class="import-input" accept=".json,application/json" hidden>`,
+  'Progress is saved on this phone only. Removing the app from your home screen deletes it, so export a backup now and then.');
 }
 
 function renderProgress() {
@@ -419,66 +504,43 @@ function renderProgress() {
   const history = readHistory(storage);
   const message = notice ? `<p class="notice" role="status">${escapeHtml(notice)}</p>` : '';
   notice = '';
-  const backup = `
-    <section class="panel">
-      <h2>Backup</h2>
-      <p class="panel-note">Your progress is saved on this phone only. Removing the app from your home screen deletes it, so export a backup now and then.</p>
-      <div class="results-actions">
-        <button class="button-quiet" data-action="export" ${history.length ? '' : 'disabled'}>Export</button>
-        <button class="button-quiet" data-action="import">Import</button>
-      </div>
-      <input type="file" class="import-input" accept=".json,application/json" hidden>
-      ${history.length ? '<button class="link-button link-danger" data-action="clear">Delete all progress</button>' : ''}
-    </section>`;
 
   if (!history.length) {
-    show(`${barHtml('Your progress', 'home')}${message}
+    show(`${navBar('Progress', 'home')}${message}
       <div class="empty">
         <p class="empty-title">No rounds yet</p>
-        <p>Finish a round and it'll show up here, so you can watch your scores climb.</p>
+        <p>Finish a round and it will show up here, so you can watch your scores improve.</p>
         <button class="button-primary" data-action="home">Pick a game</button>
       </div>
-      ${backup}`);
+      ${backupHtml(false)}`);
     return;
   }
 
   const stats = summarize(history);
   const modes = modeSummaries(history).map((summary) => `
-    <li>
-      <button class="list-row list-button" data-action="mode-progress" data-mode="${summary.modeId}">
-        <span class="list-main">
-          <span class="list-title">${escapeHtml(modeLabel(summary.modeId))}</span>
-          <span class="list-sub">${summary.games.length} ${summary.games.length === 1 ? 'round' : 'rounds'} · best ${percent(summary.best)}</span>
-        </span>
-        ${sparklineHtml(summary.games.slice(-12).map(share))}
-        <span class="list-score">${percent(summary.latest)}</span>
-      </button>
-    </li>`).join('');
+    <button class="row list-button" data-action="mode-progress" data-mode="${summary.modeId}">
+      <span class="row-main">
+        <span class="row-title">${escapeHtml(modeLabel(summary.modeId))}</span>
+        <span class="row-sub">${summary.games.length} ${summary.games.length === 1 ? 'round' : 'rounds'} · best ${percent(summary.best)}</span>
+      </span>
+      ${sparklineHtml(summary.games.slice(-12).map(share))}
+      <span class="row-score">${percent(summary.latest)}</span>
+      ${icon('chevron', 'icon chevron')}
+    </button>`).join('');
 
   show(`
-    ${barHtml('Your progress', 'home')}
+    ${navBar('Progress', 'home')}
     ${message}
     <div class="stats">
       ${statTile('Rounds played', stats.rounds.toLocaleString())}
       ${statTile('Questions answered', stats.questions.toLocaleString())}
-      ${statTile('Right first time', percent(stats.accuracy), stats.rounds > 10 ? `last 10 rounds: ${percent(stats.recentAccuracy)}` : '')}
+      ${statTile('Right first time', percent(stats.accuracy), stats.rounds > 10 ? `Last 10 rounds: ${percent(stats.recentAccuracy)}` : '')}
       ${statTile('Days played', stats.days.toLocaleString())}
     </div>
-    <section class="panel">
-      <h2>By game</h2>
-      <p class="panel-note">Latest round on the right. Tap a game for its full history.</p>
-      <ul class="list">${modes}</ul>
-    </section>
-    <section class="panel">
-      <h2>Trouble spots</h2>
-      <p class="panel-note">Missed the last time you saw them.</p>
-      ${troubleHtml(troubleSpots(history))}
-    </section>
-    <section class="panel">
-      <h2>Recent rounds</h2>
-      <ul class="list">${history.slice(-10).reverse().map((game) => roundRow(game, true)).join('')}</ul>
-    </section>
-    ${backup}`);
+    ${group('By game', `<div class="card">${modes}</div>`, 'Latest round on the right. Tap a game for its full history.')}
+    ${group('Trouble spots', troubleHtml(troubleSpots(history)), 'Missed the last time you saw them.')}
+    ${group('Recent rounds', `<div class="card">${history.slice(-10).reverse().map((game) => roundRow(game, true)).join('')}</div>`)}
+    ${backupHtml(true)}`);
 }
 
 function averageShare(games) {
@@ -504,20 +566,14 @@ function renderModeProgress(modeId) {
   const label = escapeHtml(`${modeLabel(modeId)}: right first time in each of ${games.length} rounds, latest ${percent(share(games[games.length - 1]))}`);
 
   show(`
-    ${barHtml(modeLabel(modeId), 'progress')}
+    ${navBar(modeLabel(modeId), 'progress')}
     <div class="stats">
       ${statTile('Rounds played', games.length.toLocaleString())}
       ${statTile('Best', percent(best))}
       ${statTile(recent.length === 1 ? 'Latest round' : `Last ${recent.length} rounds`, percent(averageShare(recent)), trend)}
     </div>
-    <section class="panel">
-      <h2>Right first time, by round</h2>
-      <div class="chart-slot" data-label="${label}"></div>
-    </section>
-    <section class="panel">
-      <h2>Every round</h2>
-      <ul class="list">${games.slice().reverse().map((game) => roundRow(game, false)).join('')}</ul>
-    </section>
+    ${group('Right first time, by round', `<div class="card chart-card"><div class="chart-slot" data-label="${label}"></div></div>`)}
+    ${group('Every round', `<div class="card">${games.slice().reverse().map((game) => roundRow(game, false)).join('')}</div>`)}
     <button class="button-primary wide" data-action="start" data-mode="${modeId}">Play ${escapeHtml(findMode(modeId).mode.title)}</button>`);
   drawModeChart(games);
 }
@@ -546,10 +602,10 @@ window.addEventListener('resize', () => {
 async function exportBackup() {
   const text = exportHistory(readHistory(storage));
   const day = new Date().toISOString().slice(0, 10);
-  const file = new File([text], `worldly-progress-${day}.json`, { type: 'application/json' });
+  const file = new File([text], `quizly-progress-${day}.json`, { type: 'application/json' });
   try {
     if (navigator.canShare?.({ files: [file] })) {
-      await navigator.share({ files: [file], title: 'Worldly progress' });
+      await navigator.share({ files: [file], title: 'Quizly progress' });
       return;
     }
   } catch (error) {
@@ -588,10 +644,14 @@ root.addEventListener('click', (event) => {
   if (action === 'start') startRound(target.dataset.mode);
   else if (action === 'home') renderHome();
   else if (action === 'quit') quitRound();
+  else if (action === 'menu') setMenuOpen(true);
+  else if (action === 'close-menu') setMenuOpen(false);
+  else if (action === 'settings') renderSettings();
   else if (action === 'progress') renderProgress();
   else if (action === 'mode-progress') renderModeProgress(target.dataset.mode);
   else if (action === 'set-length') updateSettings({ length: Number(target.dataset.value) });
   else if (action === 'set-style') updateSettings({ style: target.dataset.value });
+  else if (action === 'set-theme') updateSettings({ theme: target.dataset.value });
   else if (action === 'export') exportBackup();
   else if (action === 'import') root.querySelector('.import-input').click();
   else if (action === 'clear') deleteProgress();
@@ -602,6 +662,10 @@ root.addEventListener('click', (event) => {
     const option = question.options.find((candidate) => candidate.id === target.dataset.option);
     recordAnswer(option.correct, { picked: option.id });
   }
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && root.querySelector('.menu-layer:not([hidden])')) setMenuOpen(false);
 });
 
 root.addEventListener('change', (event) => {
@@ -644,6 +708,8 @@ async function start() {
       </div>`);
   }
 }
+
+applyTheme(settings.theme);
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch((error) => console.warn('Offline support unavailable', error));

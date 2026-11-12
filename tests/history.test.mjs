@@ -27,15 +27,16 @@ function game({ mode = 'capital-choice', codes = ['FR', 'DE', 'IT', 'ES'], misse
   return makeGameRecord({ modeId: mode, session, questions, startedAt: at - 60000, endedAt: at });
 }
 
-test('settings default to 10 standard questions and reject bad values', () => {
+test('settings default to 10 standard questions in the system theme, and reject bad values', () => {
+  const defaults = { length: 10, style: 'standard', theme: 'system' };
   const storage = fakeStorage();
-  assert.deepEqual(readSettings(storage), { length: 10, style: 'standard' });
-  saveSettings(storage, { length: 50, style: 'repeat' });
-  assert.deepEqual(readSettings(storage), { length: 50, style: 'repeat' });
-  storage.setItem('worldly.settings.v1', JSON.stringify({ length: 7, style: 'chaos' }));
-  assert.deepEqual(readSettings(storage), { length: 10, style: 'standard' });
-  storage.setItem('worldly.settings.v1', '{not json');
-  assert.deepEqual(readSettings(storage), { length: 10, style: 'standard' });
+  assert.deepEqual(readSettings(storage), defaults);
+  saveSettings(storage, { length: 50, style: 'repeat', theme: 'dark' });
+  assert.deepEqual(readSettings(storage), { length: 50, style: 'repeat', theme: 'dark' });
+  storage.setItem('quizly.settings.v1', JSON.stringify({ length: 7, style: 'chaos', theme: 'neon' }));
+  assert.deepEqual(readSettings(storage), defaults);
+  storage.setItem('quizly.settings.v1', '{not json');
+  assert.deepEqual(readSettings(storage), defaults);
 });
 
 test('a finished round is saved with its score, misses and time taken', () => {
@@ -52,10 +53,10 @@ test('a finished round is saved with its score, misses and time taken', () => {
 });
 
 test('corrupt or unknown entries are ignored, and history is capped', () => {
-  const storage = fakeStorage({ 'worldly.history.v1': JSON.stringify([{ id: 'x', mode: 'nope' }, null, game({})]) });
+  const storage = fakeStorage({ 'quizly.history.v1': JSON.stringify([{ id: 'x', mode: 'nope' }, null, game({})]) });
   assert.equal(readHistory(storage).length, 1);
   const many = Array.from({ length: MAX_GAMES + 5 }, (_, i) => ({ ...game({ at: i + 1 }), id: `g${i}` }));
-  storage.setItem('worldly.history.v1', JSON.stringify(many.slice(0, -1)));
+  storage.setItem('quizly.history.v1', JSON.stringify(many.slice(0, -1)));
   appendGame(storage, many[many.length - 1]);
   const kept = readHistory(storage);
   assert.equal(kept.length, MAX_GAMES);
@@ -68,7 +69,7 @@ test('a full or blocked storage reports that the round was not saved', () => {
 });
 
 test('best scores are kept per mode and round length, including old saved bests', () => {
-  const storage = fakeStorage({ 'worldly.best.v1': JSON.stringify({ 'flag-name': 9, 'capital-choice': 2 }) });
+  const storage = fakeStorage({ 'quizly.best.v1': JSON.stringify({ 'flag-name': 9, 'capital-choice': 2 }) });
   const history = [game({ missed: ['DE'] }), game({ missed: ['DE', 'IT'] }), game({ codes: Array(10).fill('FR'), missed: [] })];
   const best = bestScores(history, storage);
   assert.equal(best.get('capital-choice|4'), 3);
@@ -121,7 +122,7 @@ test('a backup round-trips, and importing it twice adds nothing', () => {
 });
 
 test('clearing removes rounds and old best scores but keeps settings', () => {
-  const storage = fakeStorage({ 'worldly.best.v1': '{"flag-name":3}' });
+  const storage = fakeStorage({ 'quizly.best.v1': '{"flag-name":3}' });
   saveSettings(storage, { length: 25, style: 'repeat' });
   appendGame(storage, game({}));
   clearHistory(storage);

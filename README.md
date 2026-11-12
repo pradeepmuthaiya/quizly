@@ -1,4 +1,4 @@
-# Worldly
+# Quizly
 
 A world trivia game for iPhone, built as an installable web app (PWA). It has no build step and
 no runtime dependencies, and it works offline after the first visit.
@@ -15,19 +15,20 @@ Palestine, Kosovo and Taiwan).
 | Languages | Multiple choice, true or false, type it |
 | Writing | Find the writing, name the language, true or false |
 
-### Round settings
+### Settings
 
-Set on the home screen and remembered between visits.
+Open the menu (top right) and choose Settings. Choices are remembered between visits.
 
 - **Questions:** 10, 25 or 50 per round.
-- **Style:** *Standard* asks each question once. *Repeat misses* sends a missed question to the
+- **Game mode:** *Standard* asks each question once. *Repeat misses* sends a missed question to the
   end of the queue, freshly built so the right answer isn't in the same spot, until it's answered
-  right. Either way the score is the number right first time, so the two styles compare fairly.
+  right. Either way the score is the number right first time, so the two modes compare fairly.
+- **Theme:** System (follows the phone), Light or Dark.
 
 ### Progress
 
 Every finished round is saved on the device (`localStorage`, up to 2,000 rounds). Rounds you
-quit aren't saved. The Progress screen shows totals, a trend line for each game, the countries
+quit aren't saved. The Progress screen (also in the menu) shows totals, a trend line for each game, the countries
 you missed the last time you saw them, and recent rounds. Best scores are kept per game and round
 length.
 
@@ -38,7 +39,7 @@ duplicating rounds.
 ## Run and test
 
 ```sh
-npm start            # http://localhost:4317
+npm start            # http://localhost:4317 (a small Node server, scripts/serve.mjs)
 npm test             # data, answer matching and question logic
 npm install          # needed once for the browser tests
 npx playwright install chromium webkit

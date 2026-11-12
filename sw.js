@@ -1,5 +1,5 @@
 // Network first so updates arrive on their own; the cache keeps the app working offline.
-const CACHE = 'worldly-v2';
+const CACHE = 'quizly-v3';
 const NETWORK_TIMEOUT_MS = 2500;
 
 const ASSETS = [

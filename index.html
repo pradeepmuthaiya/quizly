@@ -3,18 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Worldly</title>
+  <title>Quizly</title>
   <meta name="description" content="A world trivia game: capitals, flags, languages and writing.">
-  <meta name="theme-color" content="#f6f1e7" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#14191b" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="Worldly">
+  <meta name="apple-mobile-web-app-title" content="Quizly">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-180.png">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/styles.css">
+  <script>
+    // Apply a theme chosen in Settings before the first paint, so the page doesn't flash.
+    try {
+      var theme = JSON.parse(localStorage.getItem('quizly.settings.v1') || '{}').theme;
+      if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+    } catch (error) {}
+  </script>
 </head>
 <body>
   <main id="app" class="screen"><p class="loading">Loading…</p></main>

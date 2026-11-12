@@ -7,7 +7,7 @@ export default defineConfig({
   testDir: 'tests/e2e',
   use: { baseURL: `http://localhost:${PORT}` },
   webServer: {
-    command: `python3 -m http.server ${PORT}`,
+    command: `node scripts/serve.mjs ${PORT}`,
     url: `http://localhost:${PORT}`,
     reuseExistingServer: false,
     stdout: 'ignore',

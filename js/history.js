@@ -4,12 +4,13 @@ import { findMode } from './game.js';
 import { STYLES } from './session.js';
 
 export const LENGTHS = [10, 25, 50];
-export const DEFAULT_SETTINGS = { length: 10, style: 'standard' };
+export const THEMES = ['system', 'light', 'dark'];
+export const DEFAULT_SETTINGS = { length: 10, style: 'standard', theme: 'system' };
 export const MAX_GAMES = 2000;
 
-const SETTINGS_KEY = 'worldly.settings.v1';
-const HISTORY_KEY = 'worldly.history.v1';
-const LEGACY_BEST_KEY = 'worldly.best.v1'; // best scores saved before the history existed: 10-question rounds
+const SETTINGS_KEY = 'quizly.settings.v1';
+const HISTORY_KEY = 'quizly.history.v1';
+const LEGACY_BEST_KEY = 'quizly.best.v1'; // best scores saved before the history existed: 10-question rounds
 
 function readJson(storage, key, fallback) {
   try {
@@ -36,6 +37,7 @@ export function readSettings(storage) {
   return {
     length: LENGTHS.includes(saved.length) ? saved.length : DEFAULT_SETTINGS.length,
     style: STYLES.includes(saved.style) ? saved.style : DEFAULT_SETTINGS.style,
+    theme: THEMES.includes(saved.theme) ? saved.theme : DEFAULT_SETTINGS.theme,
   };
 }
 
@@ -114,7 +116,7 @@ export function bestScores(history, storage) {
 // Backup -------------------------------------------------------------------
 
 export function exportHistory(history, now = Date.now()) {
-  return JSON.stringify({ app: 'worldly', version: 1, exportedAt: now, games: history });
+  return JSON.stringify({ app: 'quizly', version: 1, exportedAt: now, games: history });
 }
 
 // Adds the games from a backup file; games already here are kept, not duplicated.
@@ -123,10 +125,10 @@ export function importHistory(storage, text) {
   try {
     parsed = JSON.parse(text);
   } catch {
-    return { ok: false, error: "That file isn't a Worldly backup." };
+    return { ok: false, error: "That file isn't a Quizly backup." };
   }
   const incoming = Array.isArray(parsed) ? parsed : parsed?.games;
-  if (!Array.isArray(incoming)) return { ok: false, error: "That file isn't a Worldly backup." };
+  if (!Array.isArray(incoming)) return { ok: false, error: "That file isn't a Quizly backup." };
   const valid = incoming.filter(isValidGame);
   const current = readHistory(storage);
   const known = new Set(current.map((game) => game.id));

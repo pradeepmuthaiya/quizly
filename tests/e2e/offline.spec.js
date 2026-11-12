@@ -2,13 +2,13 @@ import { expect, test } from '@playwright/test';
 
 test('works with no network after the first visit', async ({ page, context }) => {
   await page.goto('/');
-  await expect(page.locator('h1')).toHaveText('Worldly');
+  await expect(page.locator('h1')).toHaveText('Quizly');
   await page.evaluate(() => navigator.serviceWorker.ready);
   await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller)).toBe(true);
 
   await context.setOffline(true);
   await page.reload();
-  await expect(page.locator('h1')).toHaveText('Worldly');
+  await expect(page.locator('h1')).toHaveText('Quizly');
 
   await page.locator('[data-mode="writing-name"]').click();
   await page.locator('.option').first().click();
@@ -30,7 +30,7 @@ test.describe('served from a subfolder, as GitHub Pages does', () => {
 
   test('loads, plays, and works offline', async ({ page, context }) => {
     await page.goto('');
-    await expect(page.locator('h1')).toHaveText('Worldly');
+    await expect(page.locator('h1')).toHaveText('Quizly');
     await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller)).toBe(true);
     await context.setOffline(true);
     await page.reload();

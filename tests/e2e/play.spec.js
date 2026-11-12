@@ -13,7 +13,7 @@ const MODES = [
 test.beforeEach(async ({ page }) => {
   page.on('pageerror', (error) => { throw error; });
   await page.goto('/');
-  await expect(page.locator('h1')).toHaveText('Worldly');
+  await expect(page.locator('h1')).toHaveText('Quizly');
 });
 
 async function assertFitsScreen(page) {
@@ -78,7 +78,7 @@ test('quitting returns home and an empty answer is not submitted', async ({ page
   await page.locator('.type-input').press('Enter');
   await expect(page.locator('.feedback')).toHaveCount(0);
   await page.getByRole('button', { name: 'Quit to home' }).click();
-  await expect(page.locator('h1')).toHaveText('Worldly');
+  await expect(page.locator('h1')).toHaveText('Quizly');
 });
 
 test('installs as a home screen app', async ({ page, request }) => {

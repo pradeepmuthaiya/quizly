@@ -6,7 +6,7 @@ const countries = JSON.parse(readFileSync(new URL('../../data/countries.json', i
 test.beforeEach(async ({ page }) => {
   page.on('pageerror', (error) => { throw error; });
   await page.goto('/');
-  await expect(page.locator('h1')).toHaveText('Worldly');
+  await expect(page.locator('h1')).toHaveText('Quizly');
 });
 
 async function currentCountry(page) {
@@ -28,15 +28,28 @@ async function typeCapital(page, right) {
 
 const next = (page) => page.locator('.feedback .button-primary').click();
 
+async function openFromMenu(page, item) {
+  await page.getByRole('button', { name: 'Menu' }).click();
+  await page.getByRole('menuitem', { name: item }).click();
+}
+
+async function setSettings(page, ...choices) {
+  await openFromMenu(page, 'Settings');
+  for (const choice of choices) await page.getByRole('button', { name: choice, exact: true }).click();
+  await page.getByRole('button', { name: 'Back' }).click();
+}
+
 test('settings are remembered and set the round length', async ({ page }) => {
-  await page.getByRole('button', { name: '25' }).click();
-  await page.getByRole('button', { name: 'Repeat misses' }).click();
+  await setSettings(page, '25', 'Repeat misses');
+  await expect(page.locator('.home-meta')).toHaveText('25 questions · Repeat misses');
   await page.reload();
-  await expect(page.getByRole('button', { name: '25' })).toHaveAttribute('aria-pressed', 'true');
+  await openFromMenu(page, 'Settings');
+  await expect(page.getByRole('button', { name: '25', exact: true })).toHaveAttribute('aria-pressed', 'true');
   await expect(page.getByRole('button', { name: 'Repeat misses' })).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator('.setting-hint')).toContainText('comes back at the end');
 
   await page.getByRole('button', { name: 'Standard' }).click();
+  await page.getByRole('button', { name: 'Back' }).click();
   await page.locator('[data-mode="capital-tf"]').click();
   for (let i = 1; i <= 25; i++) {
     await expect(page.locator('.question-count')).toHaveText(`Question ${i} of 25`);
@@ -46,12 +59,12 @@ test('settings are remembered and set the round length', async ({ page }) => {
   await expect(page.locator('.results-score')).toContainText('/25');
   await page.getByRole('button', { name: 'All games' }).click();
   await expect(page.locator('[data-mode="capital-tf"] .mode-best')).toContainText('/25');
-  await page.getByRole('button', { name: '50' }).click();
+  await setSettings(page, '50');
   await expect(page.locator('[data-mode="capital-tf"] .mode-best')).toHaveCount(0);
 });
 
 test('repeat mode brings a miss back until it is answered right', async ({ page }) => {
-  await page.getByRole('button', { name: 'Repeat misses' }).click();
+  await setSettings(page, 'Repeat misses');
   await page.locator('[data-mode="capital-type"]').click();
 
   const missed = await typeCapital(page, false);
@@ -87,7 +100,7 @@ test('repeat mode brings a miss back until it is answered right', async ({ page 
 });
 
 test('progress shows saved rounds, a chart per game and what to study', async ({ page }) => {
-  await page.getByRole('button', { name: 'Progress' }).click();
+  await openFromMenu(page, 'Progress');
   await expect(page.locator('.empty-title')).toHaveText('No rounds yet');
   await page.getByRole('button', { name: 'Pick a game' }).click();
 
@@ -106,14 +119,14 @@ test('progress shows saved rounds, a chart per game and what to study', async ({
   await expect(page.locator('.stat-value').nth(1)).toHaveText('20');
   await expect(page.locator('.stat-value').nth(2)).toHaveText('55%');
   await expect(page.locator('.list-button')).toHaveCount(1);
-  await expect(page.locator('.list-button .list-score')).toHaveText('40%');
+  await expect(page.locator('.list-button .row-score')).toHaveText('40%');
   const lastMissed = misses.slice(3).map((c) => c.name);
-  const spotNames = await page.locator('.spot .list-title').allInnerTexts();
+  const spotNames = await page.locator('.spot .row-title').allInnerTexts();
   for (const name of lastMissed) expect(spotNames).toContain(name);
-  await expect(page.locator('.spot .list-sub').first()).toContainText('Capital: ');
+  await expect(page.locator('.spot .row-sub').first()).toContainText('Capital: ');
 
   await page.locator('.list-button').click();
-  await expect(page.locator('.bar-title')).toHaveText('Capitals · Type it');
+  await expect(page.locator('.nav-title')).toHaveText('Capitals · Type it');
   await expect(page.locator('.stat-note')).toHaveText('−30 pts vs your first round');
   await expect(page.locator('.chart-dot')).toHaveCount(2);
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
@@ -122,7 +135,7 @@ test('progress shows saved rounds, a chart per game and what to study', async ({
   await page.locator('.chart-svg').click({ position: { x: 50, y: 60 } });
   await expect(page.locator('.chart-readout strong')).toHaveText('70%');
   await expect(page.locator('.chart-readout span')).toContainText('7/10 · Standard');
-  await expect(page.locator('.list-row')).toHaveCount(2);
+  await expect(page.locator('.round-row')).toHaveCount(2);
 
   await page.getByRole('button', { name: 'Back' }).click();
   await page.getByRole('button', { name: 'Back' }).click();
@@ -145,7 +158,7 @@ test('progress can be backed up, restored and deleted', async ({ page }) => {
   });
   await page.getByRole('button', { name: 'Export' }).click();
   const shared = await page.waitForFunction(() => window.sharedFile).then((handle) => handle.jsonValue());
-  expect(shared.name).toMatch(/^worldly-progress-\d{4}-\d{2}-\d{2}\.json$/);
+  expect(shared.name).toMatch(/^quizly-progress-\d{4}-\d{2}-\d{2}\.json$/);
   const backup = shared.text;
   expect(JSON.parse(backup).games).toHaveLength(1);
 
@@ -168,7 +181,7 @@ test('progress can be backed up, restored and deleted', async ({ page }) => {
   await page.locator('.import-input').setInputFiles(file);
   await expect(page.locator('.notice')).toHaveText('Nothing new in that backup: those rounds are already here.');
   await page.locator('.import-input').setInputFiles({ name: 'x.json', mimeType: 'application/json', buffer: Buffer.from('nope') });
-  await expect(page.locator('.notice')).toHaveText("That file isn't a Worldly backup.");
+  await expect(page.locator('.notice')).toHaveText("That file isn't a Quizly backup.");
 });
 
 test('quitting partway asks first, and a quit round is not saved', async ({ page }) => {
@@ -179,7 +192,29 @@ test('quitting partway asks first, and a quit round is not saved', async ({ page
   await expect(page.locator('.feedback')).toBeVisible();
   page.once('dialog', (dialog) => dialog.accept());
   await page.getByRole('button', { name: 'Quit to home' }).click();
-  await expect(page.locator('h1')).toHaveText('Worldly');
-  await page.getByRole('button', { name: 'Progress' }).click();
+  await expect(page.locator('h1')).toHaveText('Quizly');
+  await openFromMenu(page, 'Progress');
   await expect(page.locator('.empty-title')).toHaveText('No rounds yet');
+});
+
+test('the menu opens and closes, and the theme setting sticks', async ({ page }) => {
+  const menuButton = page.getByRole('button', { name: 'Menu' });
+  await menuButton.click();
+  await expect(menuButton).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.getByRole('menuitem')).toHaveText(['Settings', 'Progress']);
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('menu')).toBeHidden();
+  await expect(menuButton).toHaveAttribute('aria-expanded', 'false');
+
+  const theme = () => page.evaluate(() => document.documentElement.dataset.theme ?? 'system');
+  const background = () => page.evaluate(() => getComputedStyle(document.body).backgroundColor);
+  await setSettings(page, 'Dark');
+  expect(await theme()).toBe('dark');
+  expect(await background()).toBe('rgb(0, 0, 0)');
+  await page.reload();
+  expect(await theme()).toBe('dark');
+  await setSettings(page, 'Light');
+  expect(await background()).toBe('rgb(242, 242, 247)');
+  await setSettings(page, 'System');
+  expect(await theme()).toBe('system');
 });
