@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Worldly: glyph check</title>
+  <style>
+    body { font: 16px/1.5 -apple-system, sans-serif; margin: 16px; }
+    li { margin-bottom: 12px; }
+    b { display: block; font-size: 13px; color: #666; }
+    #flags { font-size: 28px; line-height: 1.4; word-spacing: 4px; }
+  </style>
+</head>
+<body>
+  <h1>Glyph check</h1>
+  <p>Open this on the phone. Empty boxes or question marks mean iOS lacks a font for that language or flag.</p>
+  <h2>Flags</h2><p id="flags"></p>
+  <h2>Writing samples</h2><ul id="samples"></ul>
+  <script type="module">
+    const [countries, samples] = await Promise.all(
+      ['countries', 'samples'].map((name) => fetch(`data/${name}.json`).then((response) => response.json())),
+    );
+    document.getElementById('flags').textContent = countries
+      .map(({ code }) => String.fromCodePoint(...[...code].map((c) => 0x1f1e6 + c.charCodeAt(0) - 65)))
+      .join(' ');
+    const list = document.getElementById('samples');
+    for (const [id, sample] of Object.entries(samples)) {
+      const item = document.createElement('li');
+      const label = document.createElement('b');
+      label.textContent = `${id} (${sample.script})`;
+      const text = document.createElement('span');
+      text.lang = sample.lang;
+      text.dir = 'auto';
+      text.textContent = sample.text;
+      item.append(label, text);
+      list.append(item);
+    }
+  </script>
+</body>
+</html>
