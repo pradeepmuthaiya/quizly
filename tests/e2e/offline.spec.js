@@ -10,6 +10,7 @@ test('works with no network after the first visit', async ({ page, context }) =>
   await page.reload();
   await expect(page.locator('h1')).toHaveText('Quizly');
 
+  await page.locator('[data-category="writing"]').click();
   await page.locator('[data-mode="writing-name"]').click();
   await page.locator('.option').first().click();
   await expect(page.locator('.feedback')).toBeVisible();
@@ -34,6 +35,7 @@ test.describe('served from a subfolder, as GitHub Pages does', () => {
     await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller)).toBe(true);
     await context.setOffline(true);
     await page.reload();
+    await page.locator('[data-category="flags"]').click();
     await page.locator('[data-mode="flag-pick"]').click();
     await page.locator('.option').first().click();
     await expect(page.locator('.feedback')).toBeVisible();

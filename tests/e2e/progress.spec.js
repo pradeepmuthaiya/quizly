@@ -28,6 +28,15 @@ async function typeCapital(page, right) {
 
 const next = (page) => page.locator('.feedback .button-primary').click();
 
+const CATEGORY_OF = { capital: 'capitals', flag: 'flags', language: 'languages', writing: 'writing' };
+
+// Opens a game: taps its category first unless that category's list is already showing.
+async function openMode(page, mode) {
+  const button = page.locator(`[data-mode="${mode}"]`);
+  if (!(await button.isVisible())) await page.locator(`[data-category="${CATEGORY_OF[mode.split('-')[0]]}"]`).click();
+  await button.click();
+}
+
 async function openFromMenu(page, item) {
   await page.getByRole('button', { name: 'Menu' }).click();
   await page.getByRole('menuitem', { name: item }).click();
@@ -50,22 +59,25 @@ test('settings are remembered and set the round length', async ({ page }) => {
 
   await page.getByRole('button', { name: 'Standard' }).click();
   await page.getByRole('button', { name: 'Back' }).click();
-  await page.locator('[data-mode="capital-tf"]').click();
+  await openMode(page, 'capital-tf');
   for (let i = 1; i <= 25; i++) {
     await expect(page.locator('.question-count')).toHaveText(`Question ${i} of 25`);
     await page.locator('.option').first().click();
     await next(page);
   }
   await expect(page.locator('.results-score')).toContainText('/25');
-  await page.getByRole('button', { name: 'All games' }).click();
+  await page.getByRole('button', { name: 'Back to Capitals' }).click();
   await expect(page.locator('[data-mode="capital-tf"] .mode-best')).toContainText('/25');
+  await page.getByRole('button', { name: 'Back' }).click();
   await setSettings(page, '50');
+  await page.locator('[data-category="capitals"]').click();
+  await expect(page.locator('.group-note')).toHaveText('50 questions · Standard. Change this in Settings.');
   await expect(page.locator('[data-mode="capital-tf"] .mode-best')).toHaveCount(0);
 });
 
 test('repeat mode brings a miss back until it is answered right', async ({ page }) => {
   await setSettings(page, 'Repeat misses');
-  await page.locator('[data-mode="capital-type"]').click();
+  await openMode(page, 'capital-type');
 
   const missed = await typeCapital(page, false);
   await expect(page.locator('.feedback-note')).toHaveText("You'll see this one again at the end.");
@@ -106,13 +118,13 @@ test('progress shows saved rounds, a chart per game and what to study', async ({
 
   const misses = [];
   for (let roundNumber = 0; roundNumber < 2; roundNumber++) {
-    await page.locator('[data-mode="capital-type"]').click();
+    await openMode(page, 'capital-type');
     for (let i = 0; i < 10; i++) {
       const country = await typeCapital(page, i >= 3 + roundNumber * 3);
       if (i < 3 + roundNumber * 3) misses.push(country);
       await next(page);
     }
-    await page.getByRole('button', { name: roundNumber === 0 ? 'All games' : 'See your progress' }).click();
+    await page.getByRole('button', { name: roundNumber === 0 ? 'Back to Capitals' : 'See your progress' }).click();
   }
 
   await expect(page.locator('.stat-value').nth(0)).toHaveText('2');
@@ -139,11 +151,12 @@ test('progress shows saved rounds, a chart per game and what to study', async ({
 
   await page.getByRole('button', { name: 'Back' }).click();
   await page.getByRole('button', { name: 'Back' }).click();
+  await page.locator('[data-category="capitals"]').click();
   await expect(page.locator('[data-mode="capital-type"] .mode-best')).toHaveText('7/10');
 });
 
 test('progress can be backed up, restored and deleted', async ({ page }) => {
-  await page.locator('[data-mode="flag-tf"]').click();
+  await openMode(page, 'flag-tf');
   for (let i = 0; i < 10; i++) {
     await page.locator('.option').first().click();
     await next(page);
@@ -185,14 +198,15 @@ test('progress can be backed up, restored and deleted', async ({ page }) => {
 });
 
 test('quitting partway asks first, and a quit round is not saved', async ({ page }) => {
-  await page.locator('[data-mode="capital-choice"]').click();
+  await openMode(page, 'capital-choice');
   await page.locator('.option').first().click();
   page.once('dialog', (dialog) => dialog.dismiss());
-  await page.getByRole('button', { name: 'Quit to home' }).click();
+  await page.getByRole('button', { name: 'Quit round' }).click();
   await expect(page.locator('.feedback')).toBeVisible();
   page.once('dialog', (dialog) => dialog.accept());
-  await page.getByRole('button', { name: 'Quit to home' }).click();
-  await expect(page.locator('h1')).toHaveText('Quizly');
+  await page.getByRole('button', { name: 'Quit round' }).click();
+  await expect(page.locator('.nav-title')).toHaveText('Capitals');
+  await page.getByRole('button', { name: 'Back' }).click();
   await openFromMenu(page, 'Progress');
   await expect(page.locator('.empty-title')).toHaveText('No rounds yet');
 });

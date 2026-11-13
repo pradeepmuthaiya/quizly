@@ -73,6 +73,10 @@ const ICONS = {
   chevron: '<path d="M9 6l6 6-6 6"/>',
   back: '<path d="M15 5l-7 7 7 7"/>',
   close: '<path d="M6 6l12 12M18 6L6 18"/>',
+  capitals: '<path d="M3 21h18M5 21V10M19 21V10M9.7 21v-7M14.3 21v-7M12 3l9 5H3z"/>',
+  flags: '<path d="M5 21V4M5 4h12l-2.5 4.5L17 13H5"/>',
+  languages: '<path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12z"/>',
+  writing: '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/>',
 };
 const icon = (name, className = 'icon') => `<svg class="${className}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[name]}</svg>`;
 
@@ -105,34 +109,25 @@ function applyTheme(theme) {
 function renderHome() {
   round = null;
   view = { name: 'home' };
-  const best = bestScores(readHistory(storage), storage);
-  const { length } = settings;
   const categories = CATEGORIES.map((category) => `
-    <section class="group">
-      <h2 class="group-label">${escapeHtml(category.title)}</h2>
-      <div class="card">
-        ${category.modes.map((mode) => {
-          const score = best.get(`${mode.id}|${length}`);
-          return `
-          <button class="row mode" data-action="start" data-mode="${mode.id}">
-            <span class="row-main">
-              <span class="row-title">${escapeHtml(mode.title)}</span>
-              <span class="row-sub">${escapeHtml(mode.hint)}</span>
-            </span>
-            ${score === undefined ? '' : `<span class="row-value mode-best" aria-label="Best score ${score} of ${length}">${score}/${length}</span>`}
-            ${icon('chevron', 'icon chevron')}
-          </button>`;
-        }).join('')}
-      </div>
-    </section>`).join('');
+    <button class="row category-row" data-action="category" data-category="${category.id}">
+      <span class="row-icon" aria-hidden="true">${icon(category.id)}</span>
+      <span class="row-main">
+        <span class="row-title">${escapeHtml(category.title)}</span>
+        <span class="row-sub">${escapeHtml(category.blurb)}</span>
+      </span>
+      ${icon('chevron', 'icon chevron')}
+    </button>`).join('');
 
   show(`
     <header class="app-bar">
       <h1>Quizly</h1>
       <button class="icon-button menu-button" data-action="menu" aria-label="Menu" aria-haspopup="menu" aria-expanded="false">${icon('menu')}</button>
     </header>
-    <p class="home-meta">${length} questions · ${escapeHtml(STYLE_LABELS[settings.style])}</p>
-    ${categories}
+    <p class="home-meta">${settings.length} questions · ${escapeHtml(STYLE_LABELS[settings.style])}</p>
+    <section class="group">
+      <div class="card">${categories}</div>
+    </section>
     <div class="menu-layer" hidden>
       <div class="menu-backdrop" data-action="close-menu"></div>
       <div class="menu" role="menu" aria-label="Menu">
@@ -141,6 +136,41 @@ function renderHome() {
       </div>
     </div>`);
 }
+
+// The game modes for one category, with your best score at the current round length.
+function renderCategory(categoryId) {
+  const category = CATEGORIES.find((candidate) => candidate.id === categoryId);
+  if (!category) {
+    renderHome();
+    return;
+  }
+  round = null;
+  view = { name: 'category', categoryId };
+  const best = bestScores(readHistory(storage), storage);
+  const { length } = settings;
+  const modes = category.modes.map((mode) => {
+    const score = best.get(`${mode.id}|${length}`);
+    return `
+      <button class="row mode" data-action="start" data-mode="${mode.id}">
+        <span class="row-main">
+          <span class="row-title">${escapeHtml(mode.title)}</span>
+          <span class="row-sub">${escapeHtml(mode.hint)}</span>
+        </span>
+        ${score === undefined ? '' : `<span class="row-value mode-best" aria-label="Best score ${score} of ${length}">${score}/${length}</span>`}
+        ${icon('chevron', 'icon chevron')}
+      </button>`;
+  }).join('');
+
+  show(`
+    ${navBar(category.title, 'home')}
+    <section class="group">
+      <h2 class="group-label">Choose a game</h2>
+      <div class="card">${modes}</div>
+      <p class="group-note">${length} questions · ${escapeHtml(STYLE_LABELS[settings.style])}. Change this in Settings.</p>
+    </section>`);
+}
+
+const categoryOf = (modeId) => findMode(modeId).category;
 
 function setMenuOpen(open) {
   const layer = root.querySelector('.menu-layer');
@@ -297,7 +327,7 @@ function renderQuestion() {
   const missedBefore = item.misses - (round.picked !== null && !round.lastCorrect ? 1 : 0);
   show(`
     <div class="quiz-bar">
-      <button class="icon-button" data-action="quit" aria-label="Quit to home">${icon('close')}</button>
+      <button class="icon-button" data-action="quit" aria-label="Quit round">${icon('close')}</button>
       <div class="quiz-title">${escapeHtml(modeLabel(round.modeId))}</div>
       <div class="quiz-score">Score ${session.firstTry}</div>
     </div>
@@ -357,7 +387,7 @@ function nextQuestion() {
 function quitRound() {
   const started = round && (round.session.answers > 0 || round.picked !== null);
   if (started && !window.confirm("Quit this round? Rounds you don't finish aren't saved to your progress.")) return;
-  renderHome();
+  renderCategory(categoryOf(round.modeId).id);
 }
 
 // Results ------------------------------------------------------------------
@@ -414,7 +444,7 @@ function finishRound() {
       ${saved ? '' : "<p class=\"results-detail\">This round couldn't be saved to your progress: storage on this device is full or blocked.</p>"}
       <div class="results-actions">
         <button class="button-primary" data-action="start" data-mode="${modeId}">Play again</button>
-        <button class="button-quiet" data-action="home">All games</button>
+        <button class="button-quiet" data-action="category" data-category="${categoryOf(modeId).id}">Back to ${escapeHtml(categoryOf(modeId).title)}</button>
       </div>
       <button class="link-button" data-action="progress">See your progress</button>
     </div>
@@ -643,6 +673,7 @@ root.addEventListener('click', (event) => {
   const { action } = target.dataset;
   if (action === 'start') startRound(target.dataset.mode);
   else if (action === 'home') renderHome();
+  else if (action === 'category') renderCategory(target.dataset.category);
   else if (action === 'quit') quitRound();
   else if (action === 'menu') setMenuOpen(true);
   else if (action === 'close-menu') setMenuOpen(false);
