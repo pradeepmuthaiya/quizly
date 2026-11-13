@@ -1,11 +1,13 @@
 // Settings and the log of finished rounds, kept in localStorage on this device.
 // Everything takes the storage object as an argument so tests can pass a fake.
-import { findMode } from './game.js';
+import { CATEGORIES, findMode } from './game.js';
 import { STYLES } from './session.js';
 
 export const LENGTHS = [10, 25, 50];
 export const THEMES = ['system', 'light', 'dark'];
-export const DEFAULT_SETTINGS = { length: 10, style: 'standard', theme: 'system' };
+// The game mode played for each category: the first one listed until you pick another.
+const DEFAULT_MODES = Object.fromEntries(CATEGORIES.map((category) => [category.id, category.modes[0].id]));
+export const DEFAULT_SETTINGS = { length: 10, style: 'standard', theme: 'system', modes: DEFAULT_MODES };
 export const MAX_GAMES = 2000;
 
 const SETTINGS_KEY = 'quizly.settings.v1';
@@ -38,6 +40,11 @@ export function readSettings(storage) {
     length: LENGTHS.includes(saved.length) ? saved.length : DEFAULT_SETTINGS.length,
     style: STYLES.includes(saved.style) ? saved.style : DEFAULT_SETTINGS.style,
     theme: THEMES.includes(saved.theme) ? saved.theme : DEFAULT_SETTINGS.theme,
+    modes: Object.fromEntries(CATEGORIES.map((category) => {
+      const chosen = saved.modes?.[category.id];
+      const valid = category.modes.some((mode) => mode.id === chosen);
+      return [category.id, valid ? chosen : DEFAULT_MODES[category.id]];
+    })),
   };
 }
 

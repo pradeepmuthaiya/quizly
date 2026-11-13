@@ -28,11 +28,16 @@ function game({ mode = 'capital-choice', codes = ['FR', 'DE', 'IT', 'ES'], misse
 }
 
 test('settings default to 10 standard questions in the system theme, and reject bad values', () => {
-  const defaults = { length: 10, style: 'standard', theme: 'system' };
+  const modes = { capitals: 'capital-choice', flags: 'flag-name', languages: 'language-choice', writing: 'writing-pick' };
+  const defaults = { length: 10, style: 'standard', theme: 'system', modes };
   const storage = fakeStorage();
   assert.deepEqual(readSettings(storage), defaults);
-  saveSettings(storage, { length: 50, style: 'repeat', theme: 'dark' });
-  assert.deepEqual(readSettings(storage), { length: 50, style: 'repeat', theme: 'dark' });
+  const custom = { length: 50, style: 'repeat', theme: 'dark', modes: { ...modes, flags: 'flag-type' } };
+  saveSettings(storage, custom);
+  assert.deepEqual(readSettings(storage), custom);
+  // A mode from the wrong category, or one that doesn't exist, falls back to the default.
+  storage.setItem('quizly.settings.v1', JSON.stringify({ modes: { capitals: 'flag-type', writing: 'nope' } }));
+  assert.deepEqual(readSettings(storage).modes, modes);
   storage.setItem('quizly.settings.v1', JSON.stringify({ length: 7, style: 'chaos', theme: 'neon' }));
   assert.deepEqual(readSettings(storage), defaults);
   storage.setItem('quizly.settings.v1', '{not json');

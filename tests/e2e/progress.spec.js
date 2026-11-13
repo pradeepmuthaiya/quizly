@@ -30,11 +30,20 @@ const next = (page) => page.locator('.feedback .button-primary').click();
 
 const CATEGORY_OF = { capital: 'capitals', flag: 'flags', language: 'languages', writing: 'writing' };
 
-// Opens a game: taps its category first unless that category's list is already showing.
+// Starts a game from the home screen, choosing it in Settings first if its category
+// is set to a different game mode.
 async function openMode(page, mode) {
-  const button = page.locator(`[data-mode="${mode}"]`);
-  if (!(await button.isVisible())) await page.locator(`[data-category="${CATEGORY_OF[mode.split('-')[0]]}"]`).click();
-  await button.click();
+  const category = CATEGORY_OF[mode.split('-')[0]];
+  const row = page.locator(`.category-row[data-category="${category}"]`);
+  if ((await row.getAttribute('data-mode')) !== mode) {
+    await page.getByRole('button', { name: 'Menu' }).click();
+    await page.getByRole('menuitem', { name: 'Settings' }).click();
+    await page.locator(`[data-action="pick-mode"][data-category="${category}"]`).click();
+    await page.locator(`[data-action="set-mode"][data-mode="${mode}"]`).click();
+    await page.getByRole('button', { name: 'Back' }).click();
+    await page.getByRole('button', { name: 'Back' }).click();
+  }
+  await row.click();
 }
 
 async function openFromMenu(page, item) {
@@ -66,13 +75,11 @@ test('settings are remembered and set the round length', async ({ page }) => {
     await next(page);
   }
   await expect(page.locator('.results-score')).toContainText('/25');
-  await page.getByRole('button', { name: 'Back to Capitals' }).click();
-  await expect(page.locator('[data-mode="capital-tf"] .mode-best')).toContainText('/25');
-  await page.getByRole('button', { name: 'Back' }).click();
+  await page.getByRole('button', { name: 'All games' }).click();
+  await expect(page.locator('.category-row[data-mode="capital-tf"] .mode-best')).toContainText('/25');
   await setSettings(page, '50');
-  await page.locator('[data-category="capitals"]').click();
-  await expect(page.locator('.group-note')).toHaveText('50 questions · Standard. Change this in Settings.');
-  await expect(page.locator('[data-mode="capital-tf"] .mode-best')).toHaveCount(0);
+  await expect(page.locator('.home-meta')).toHaveText('50 questions · Standard');
+  await expect(page.locator('.category-row[data-mode="capital-tf"] .mode-best')).toHaveCount(0);
 });
 
 test('repeat mode brings a miss back until it is answered right', async ({ page }) => {
@@ -124,7 +131,7 @@ test('progress shows saved rounds, a chart per game and what to study', async ({
       if (i < 3 + roundNumber * 3) misses.push(country);
       await next(page);
     }
-    await page.getByRole('button', { name: roundNumber === 0 ? 'Back to Capitals' : 'See your progress' }).click();
+    await page.getByRole('button', { name: roundNumber === 0 ? 'All games' : 'See your progress' }).click();
   }
 
   await expect(page.locator('.stat-value').nth(0)).toHaveText('2');
@@ -151,8 +158,7 @@ test('progress shows saved rounds, a chart per game and what to study', async ({
 
   await page.getByRole('button', { name: 'Back' }).click();
   await page.getByRole('button', { name: 'Back' }).click();
-  await page.locator('[data-category="capitals"]').click();
-  await expect(page.locator('[data-mode="capital-type"] .mode-best')).toHaveText('7/10');
+  await expect(page.locator('.category-row[data-mode="capital-type"] .mode-best')).toHaveText('7/10');
 });
 
 test('progress can be backed up, restored and deleted', async ({ page }) => {
@@ -205,8 +211,7 @@ test('quitting partway asks first, and a quit round is not saved', async ({ page
   await expect(page.locator('.feedback')).toBeVisible();
   page.once('dialog', (dialog) => dialog.accept());
   await page.getByRole('button', { name: 'Quit round' }).click();
-  await expect(page.locator('.nav-title')).toHaveText('Capitals');
-  await page.getByRole('button', { name: 'Back' }).click();
+  await expect(page.locator('h1')).toHaveText('Quizly');
   await openFromMenu(page, 'Progress');
   await expect(page.locator('.empty-title')).toHaveText('No rounds yet');
 });

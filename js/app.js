@@ -73,6 +73,7 @@ const ICONS = {
   chevron: '<path d="M9 6l6 6-6 6"/>',
   back: '<path d="M15 5l-7 7 7 7"/>',
   close: '<path d="M6 6l12 12M18 6L6 18"/>',
+  check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
   capitals: '<path d="M3 21h18M5 21V10M19 21V10M9.7 21v-7M14.3 21v-7M12 3l9 5H3z"/>',
   flags: '<path d="M5 21V4M5 4h12l-2.5 4.5L17 13H5"/>',
   languages: '<path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12z"/>',
@@ -109,24 +110,33 @@ function applyTheme(theme) {
 function renderHome() {
   round = null;
   view = { name: 'home' };
-  const categories = CATEGORIES.map((category) => `
-    <button class="row category-row" data-action="category" data-category="${category.id}">
+  const best = bestScores(readHistory(storage), storage);
+  const { length } = settings;
+  const categories = CATEGORIES.map((category) => {
+    const modeId = settings.modes[category.id];
+    const { mode } = findMode(modeId);
+    const score = best.get(`${modeId}|${length}`);
+    return `
+    <button class="row category-row" data-action="start" data-category="${category.id}" data-mode="${modeId}">
       <span class="row-icon" aria-hidden="true">${icon(category.id)}</span>
       <span class="row-main">
         <span class="row-title">${escapeHtml(category.title)}</span>
-        <span class="row-sub">${escapeHtml(category.blurb)}</span>
+        <span class="row-sub">${escapeHtml(mode.title)}</span>
       </span>
+      ${score === undefined ? '' : `<span class="row-value mode-best" aria-label="Best score ${score} of ${length}">${score}/${length}</span>`}
       ${icon('chevron', 'icon chevron')}
-    </button>`).join('');
+    </button>`;
+  }).join('');
 
   show(`
     <header class="app-bar">
       <h1>Quizly</h1>
       <button class="icon-button menu-button" data-action="menu" aria-label="Menu" aria-haspopup="menu" aria-expanded="false">${icon('menu')}</button>
     </header>
-    <p class="home-meta">${settings.length} questions · ${escapeHtml(STYLE_LABELS[settings.style])}</p>
+    <p class="home-meta">${length} questions · ${escapeHtml(STYLE_LABELS[settings.style])}</p>
     <section class="group">
       <div class="card">${categories}</div>
+      <p class="group-note">Change the game mode for each category in Settings.</p>
     </section>
     <div class="menu-layer" hidden>
       <div class="menu-backdrop" data-action="close-menu"></div>
@@ -136,41 +146,6 @@ function renderHome() {
       </div>
     </div>`);
 }
-
-// The game modes for one category, with your best score at the current round length.
-function renderCategory(categoryId) {
-  const category = CATEGORIES.find((candidate) => candidate.id === categoryId);
-  if (!category) {
-    renderHome();
-    return;
-  }
-  round = null;
-  view = { name: 'category', categoryId };
-  const best = bestScores(readHistory(storage), storage);
-  const { length } = settings;
-  const modes = category.modes.map((mode) => {
-    const score = best.get(`${mode.id}|${length}`);
-    return `
-      <button class="row mode" data-action="start" data-mode="${mode.id}">
-        <span class="row-main">
-          <span class="row-title">${escapeHtml(mode.title)}</span>
-          <span class="row-sub">${escapeHtml(mode.hint)}</span>
-        </span>
-        ${score === undefined ? '' : `<span class="row-value mode-best" aria-label="Best score ${score} of ${length}">${score}/${length}</span>`}
-        ${icon('chevron', 'icon chevron')}
-      </button>`;
-  }).join('');
-
-  show(`
-    ${navBar(category.title, 'home')}
-    <section class="group">
-      <h2 class="group-label">Choose a game</h2>
-      <div class="card">${modes}</div>
-      <p class="group-note">${length} questions · ${escapeHtml(STYLE_LABELS[settings.style])}. Change this in Settings.</p>
-    </section>`);
-}
-
-const categoryOf = (modeId) => findMode(modeId).category;
 
 function setMenuOpen(open) {
   const layer = root.querySelector('.menu-layer');
@@ -197,13 +172,24 @@ function segmentedRow(action, label, options, selected) {
 
 function renderSettings() {
   view = { name: 'settings' };
+  const modeRows = CATEGORIES.map((category) => `
+    <button class="row category-row" data-action="pick-mode" data-category="${category.id}">
+      <span class="row-icon" aria-hidden="true">${icon(category.id)}</span>
+      <span class="row-main"><span class="row-title">${escapeHtml(category.title)}</span></span>
+      <span class="row-value">${escapeHtml(findMode(settings.modes[category.id]).mode.title)}</span>
+      ${icon('chevron', 'icon chevron')}
+    </button>`).join('');
   show(`
     ${navBar('Settings', 'home')}
+    <section class="group">
+      <h2 class="group-label">Game mode</h2>
+      <div class="card">${modeRows}</div>
+    </section>
     <section class="group">
       <h2 class="group-label">Rounds</h2>
       <div class="card">
         ${segmentedRow('set-length', 'Questions', LENGTHS.map((value) => [value, value]), settings.length)}
-        ${segmentedRow('set-style', 'Game mode', Object.entries(STYLE_LABELS), settings.style)}
+        ${segmentedRow('set-style', 'Round style', Object.entries(STYLE_LABELS), settings.style)}
       </div>
       <p class="group-note setting-hint">${escapeHtml(STYLE_HINTS[settings.style])}</p>
     </section>
@@ -216,16 +202,49 @@ function renderSettings() {
     </section>`);
 }
 
+// The game modes for one category; the checked one is what that category plays.
+function renderModePicker(categoryId) {
+  const category = CATEGORIES.find((candidate) => candidate.id === categoryId);
+  if (!category) {
+    renderSettings();
+    return;
+  }
+  view = { name: 'mode-picker', categoryId };
+  const best = bestScores(readHistory(storage), storage);
+  const { length } = settings;
+  const rows = category.modes.map((mode) => {
+    const selected = settings.modes[category.id] === mode.id;
+    const score = best.get(`${mode.id}|${length}`);
+    return `
+      <button class="row mode-option" data-action="set-mode" data-category="${category.id}" data-mode="${mode.id}" aria-pressed="${selected}">
+        <span class="row-main">
+          <span class="row-title">${escapeHtml(mode.title)}</span>
+          <span class="row-sub">${escapeHtml(mode.hint)}${score === undefined ? '' : ` · best ${score}/${length}`}</span>
+        </span>
+        ${selected ? icon('check', 'icon check') : '<span class="check-space"></span>'}
+      </button>`;
+  }).join('');
+  show(`
+    ${navBar(category.title, 'settings')}
+    <section class="group">
+      <h2 class="group-label">Game mode</h2>
+      <div class="card">${rows}</div>
+      <p class="group-note">Tapping ${escapeHtml(category.title)} on the home screen starts this game.</p>
+    </section>`);
+}
+
 function updateSettings(change) {
   settings = { ...settings, ...change };
   saveSettings(storage, settings);
   if (change.theme) applyTheme(settings.theme);
   const scrollY = window.scrollY;
   const action = Object.keys(change)[0];
-  renderSettings();
+  if (view.name === 'mode-picker') renderModePicker(view.categoryId);
+  else renderSettings();
   window.scrollTo(0, scrollY);
   // Keep keyboard focus on the control that was just used.
-  root.querySelector(`[data-action="set-${action}"][aria-pressed="true"]`)?.focus({ preventScroll: true });
+  const focusAction = action === 'modes' ? 'set-mode' : `set-${action}`;
+  root.querySelector(`[data-action="${focusAction}"][aria-pressed="true"]`)?.focus({ preventScroll: true });
 }
 
 // Quiz ---------------------------------------------------------------------
@@ -387,7 +406,7 @@ function nextQuestion() {
 function quitRound() {
   const started = round && (round.session.answers > 0 || round.picked !== null);
   if (started && !window.confirm("Quit this round? Rounds you don't finish aren't saved to your progress.")) return;
-  renderCategory(categoryOf(round.modeId).id);
+  renderHome();
 }
 
 // Results ------------------------------------------------------------------
@@ -444,7 +463,7 @@ function finishRound() {
       ${saved ? '' : "<p class=\"results-detail\">This round couldn't be saved to your progress: storage on this device is full or blocked.</p>"}
       <div class="results-actions">
         <button class="button-primary" data-action="start" data-mode="${modeId}">Play again</button>
-        <button class="button-quiet" data-action="category" data-category="${categoryOf(modeId).id}">Back to ${escapeHtml(categoryOf(modeId).title)}</button>
+        <button class="button-quiet" data-action="home">All games</button>
       </div>
       <button class="link-button" data-action="progress">See your progress</button>
     </div>
@@ -673,7 +692,10 @@ root.addEventListener('click', (event) => {
   const { action } = target.dataset;
   if (action === 'start') startRound(target.dataset.mode);
   else if (action === 'home') renderHome();
-  else if (action === 'category') renderCategory(target.dataset.category);
+  else if (action === 'pick-mode') renderModePicker(target.dataset.category);
+  else if (action === 'set-mode') {
+    updateSettings({ modes: { ...settings.modes, [target.dataset.category]: target.dataset.mode } });
+  }
   else if (action === 'quit') quitRound();
   else if (action === 'menu') setMenuOpen(true);
   else if (action === 'close-menu') setMenuOpen(false);

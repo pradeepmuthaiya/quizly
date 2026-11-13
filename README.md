@@ -17,12 +17,15 @@ Palestine, Kosovo and Taiwan).
 
 ### Settings
 
-Open the menu (top right) and choose Settings. Choices are remembered between visits.
+The home screen lists the four categories; tapping one starts a round. Open the menu (top right)
+and choose Settings to change how rounds play. Choices are remembered between visits.
 
+- **Game mode:** for each category, which of its modes the home screen starts (for example
+  Capitals → Type it).
 - **Questions:** 10, 25 or 50 per round.
-- **Game mode:** *Standard* asks each question once. *Repeat misses* sends a missed question to the
+- **Round style:** *Standard* asks each question once. *Repeat misses* sends a missed question to the
   end of the queue, freshly built so the right answer isn't in the same spot, until it's answered
-  right. Either way the score is the number right first time, so the two modes compare fairly.
+  right. Either way the score is the number right first time, so the two styles compare fairly.
 - **Theme:** System (follows the phone), Light or Dark.
 
 ### Progress

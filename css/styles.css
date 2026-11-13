@@ -227,6 +227,8 @@ button.row:active { background: var(--fill); }
 .row-icon .icon { width: 20px; height: 20px; }
 .category-row { min-height: 64px; }
 .category-row + .category-row::before { left: 64px; }
+.check { color: var(--accent); stroke-width: 2.5; }
+.check-space { width: 22px; flex: none; }
 .chevron { width: 16px; height: 16px; color: var(--muted); opacity: 0.6; stroke-width: 2.5; }
 
 /* Settings ----------------------------------------------------------------- */

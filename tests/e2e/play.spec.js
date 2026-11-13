@@ -6,11 +6,20 @@ const countries = load('countries');
 
 const CATEGORY_OF = { capital: 'capitals', flag: 'flags', language: 'languages', writing: 'writing' };
 
-// Opens a game: taps its category first unless that category's list is already showing.
+// Starts a game from the home screen, choosing it in Settings first if its category
+// is set to a different game mode.
 async function openMode(page, mode) {
-  const button = page.locator(`[data-mode="${mode}"]`);
-  if (!(await button.isVisible())) await page.locator(`[data-category="${CATEGORY_OF[mode.split('-')[0]]}"]`).click();
-  await button.click();
+  const category = CATEGORY_OF[mode.split('-')[0]];
+  const row = page.locator(`.category-row[data-category="${category}"]`);
+  if ((await row.getAttribute('data-mode')) !== mode) {
+    await page.getByRole('button', { name: 'Menu' }).click();
+    await page.getByRole('menuitem', { name: 'Settings' }).click();
+    await page.locator(`[data-action="pick-mode"][data-category="${category}"]`).click();
+    await page.locator(`[data-action="set-mode"][data-mode="${mode}"]`).click();
+    await page.getByRole('button', { name: 'Back' }).click();
+    await page.getByRole('button', { name: 'Back' }).click();
+  }
+  await row.click();
 }
 const MODES = [
   'capital-choice', 'capital-tf', 'capital-type',
@@ -68,8 +77,7 @@ test('typing every right capital scores 10/10 and saves the best score', async (
   await expect(page.locator('.results-best')).toBeVisible();
   await expect(page.locator('.review')).toHaveCount(0);
   await page.reload();
-  await page.locator('[data-category="capitals"]').click();
-  await expect(page.locator('[data-mode="capital-type"] .mode-best')).toHaveText('10/10');
+  await expect(page.locator('.category-row[data-mode="capital-type"] .mode-best')).toHaveText('10/10');
 });
 
 test('missed questions appear in the review with the right answer', async ({ page }) => {
@@ -88,7 +96,7 @@ test('quitting returns home and an empty answer is not submitted', async ({ page
   await page.locator('.type-input').press('Enter');
   await expect(page.locator('.feedback')).toHaveCount(0);
   await page.getByRole('button', { name: 'Quit round' }).click();
-  await expect(page.locator('.nav-title')).toHaveText('Languages');
+  await expect(page.locator('h1')).toHaveText('Quizly');
 });
 
 test('installs as a home screen app', async ({ page, request }) => {
@@ -100,12 +108,25 @@ test('installs as a home screen app', async ({ page, request }) => {
   }
 });
 
-test('the home screen lists categories, and their games appear only after choosing one', async ({ page }) => {
+test('game modes are chosen per category in Settings, and home starts the chosen one', async ({ page }) => {
   await expect(page.locator('.category-row .row-title')).toHaveText(['Capitals', 'Flags', 'Languages', 'Writing']);
-  await expect(page.locator('[data-mode]')).toHaveCount(0);
-  await page.locator('[data-category="flags"]').click();
+  await expect(page.locator('.category-row .row-sub')).toHaveText(['Multiple choice', 'Name the flag', 'Multiple choice', 'Find the writing']);
+
+  await page.getByRole('button', { name: 'Menu' }).click();
+  await page.getByRole('menuitem', { name: 'Settings' }).click();
+  await expect(page.locator('.mode-option')).toHaveCount(0);
+  await page.locator('[data-action="pick-mode"][data-category="flags"]').click();
   await expect(page.locator('.nav-title')).toHaveText('Flags');
-  await expect(page.locator('[data-mode] .row-title')).toHaveText(['Name the flag', 'Find the flag', 'True or false', 'Type it']);
+  await expect(page.locator('.mode-option .row-title')).toHaveText(['Name the flag', 'Find the flag', 'True or false', 'Type it']);
+  await expect(page.locator('.mode-option[aria-pressed="true"] .row-title')).toHaveText('Name the flag');
+  await page.locator('.mode-option[data-mode="flag-tf"]').click();
+  await expect(page.locator('.mode-option[aria-pressed="true"] .row-title')).toHaveText('True or false');
+
   await page.getByRole('button', { name: 'Back' }).click();
-  await expect(page.locator('h1')).toHaveText('Quizly');
+  await expect(page.locator('[data-action="pick-mode"][data-category="flags"] .row-value')).toHaveText('True or false');
+  await page.getByRole('button', { name: 'Back' }).click();
+  await expect(page.locator('.category-row[data-category="flags"] .row-sub')).toHaveText('True or false');
+  await page.reload();
+  await page.locator('.category-row[data-category="flags"]').click();
+  await expect(page.locator('.quiz-title')).toHaveText('Flags · True or false');
 });
