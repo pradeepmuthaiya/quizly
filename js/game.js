@@ -6,8 +6,8 @@ const MAX_PER_LANGUAGE = 2;
 export const CATEGORIES = [
   {
     id: 'capitals',
+    group: 'Geography',
     title: 'Capitals',
-    icon: '🏛️',
     blurb: 'Name the capital city.',
     modes: [
       { id: 'capital-choice', title: 'Multiple choice', hint: 'Pick from four cities' },
@@ -17,8 +17,8 @@ export const CATEGORIES = [
   },
   {
     id: 'flags',
+    group: 'Geography',
     title: 'Flags',
-    icon: '🚩',
     blurb: 'Match flags and countries.',
     modes: [
       { id: 'flag-name', title: 'Name the flag', hint: 'See a flag, pick the country' },
@@ -29,8 +29,8 @@ export const CATEGORIES = [
   },
   {
     id: 'languages',
+    group: 'Geography',
     title: 'Languages',
-    icon: '🗣️',
     blurb: 'Name the main spoken language.',
     modes: [
       { id: 'language-choice', title: 'Multiple choice', hint: 'Pick from four languages' },
@@ -40,8 +40,8 @@ export const CATEGORIES = [
   },
   {
     id: 'writing',
+    group: 'Geography',
     title: 'Writing',
-    icon: '✍️',
     blurb: 'Recognize how a language looks.',
     modes: [
       { id: 'writing-pick', title: 'Find the writing', hint: 'See a country, pick its text' },
@@ -49,6 +49,23 @@ export const CATEGORIES = [
       { id: 'writing-tf', title: 'True or false', hint: 'Is this their language?' },
     ],
   },
+  ...[
+    ['sports', 'sports', 'Sports', 'Teams, records and champions.'],
+    ['history', 'history', 'World history', 'Empires, wars and turning points.'],
+    ['religion', 'religion', 'Religious history', 'Faiths, figures and events.'],
+    ['popculture', 'pop', 'Pop culture', 'Music, film, TV and games.'],
+  ].map(([id, prefix, title, blurb]) => ({
+    id,
+    group: 'General knowledge',
+    trivia: true,
+    title,
+    blurb,
+    modes: [
+      { id: `${prefix}-choice`, title: 'Multiple choice', hint: 'Pick from four answers' },
+      { id: `${prefix}-tf`, title: 'True or false', hint: 'Is this the right answer?' },
+      { id: `${prefix}-type`, title: 'Type it', hint: 'No hints, just spelling' },
+    ],
+  })),
 ];
 
 // Flags worth pairing: similar enough to be a fair challenge.
@@ -88,7 +105,7 @@ function pickMixed(pool, isNear, count, rng, nearCap = 2) {
   return [...near, ...rest].slice(0, count);
 }
 
-export function prepareData({ countries, languages, samples }) {
+export function prepareData({ countries, languages, samples, trivia = {} }) {
   const enriched = countries.map((country) => ({
     ...country,
     flag: flagEmoji(country.code),
@@ -96,10 +113,16 @@ export function prepareData({ countries, languages, samples }) {
   }));
   const languageNames = (id) => [languages[id].name, ...(languages[id].aliases ?? [])];
   const primaryIds = [...new Set(enriched.map((country) => country.language))];
+  const triviaDomains = Object.fromEntries(Object.entries(trivia).map(([categoryId, items]) => [
+    categoryId,
+    items.flatMap((item) => [item.a, ...(item.accept ?? []), ...item.wrong]),
+  ]));
   return {
     countries: enriched,
     languages,
     samples,
+    trivia,
+    triviaDomains,
     primaryIds,
     languageNames,
     domains: {
@@ -376,11 +399,64 @@ const BUILDERS = {
   },
 };
 
-function eligibleCountries(modeId, data) {
+// General-knowledge questions come from data/trivia.json: a question, its answer, other
+// spellings that count when typed, and three wrong answers.
+function triviaBuilders(category) {
+  const [choiceId, tfId, typeId] = category.modes.map((mode) => mode.id);
+  const fact = (item) => `The answer is ${item.a}.`;
+  return {
+    [choiceId]: (item, data, rng) => ({
+      kind: 'choice',
+      prompt: { text: item.q },
+      options: choiceOptions({ text: item.a }, item.wrong.map((text) => ({ text })), rng),
+      answerText: item.a,
+      fact: fact(item),
+    }),
+    [tfId]: (item, data, rng) => {
+      const isTrue = rng() < 0.5;
+      const decoy = item.wrong[Math.floor(rng() * item.wrong.length)];
+      return {
+        kind: 'truefalse',
+        prompt: { text: item.q, claim: isTrue ? item.a : decoy },
+        options: trueFalseOptions(isTrue),
+        answerText: isTrue ? 'True' : `False: it's ${item.a}`,
+        fact: isTrue ? fact(item) : `The answer is ${item.a}, not ${decoy}.`,
+      };
+    },
+    [typeId]: (item, data) => ({
+      kind: 'type',
+      prompt: { text: item.q },
+      placeholder: 'Type your answer',
+      accepted: [item.a, ...(item.accept ?? [])],
+      domain: data.triviaDomains[category.id],
+      answerText: item.a,
+      fact: fact(item),
+    }),
+  };
+}
+
+for (const category of CATEGORIES.filter((candidate) => candidate.trivia)) {
+  Object.assign(BUILDERS, triviaBuilders(category));
+}
+
+// What a mode asks about: countries for geography, questions from the bank for trivia.
+export function subjectsFor(modeId, data) {
+  const { category, mode } = findMode(modeId);
+  if (category.trivia) {
+    const items = data.trivia[category.id] ?? [];
+    return mode.id.endsWith('-type') ? items.filter((item) => item.type !== false) : items;
+  }
   if (modeId.startsWith('writing-')) {
     return data.countries.filter((country) => sampleFor(country, data));
   }
   return data.countries;
+}
+
+const subjectCode = (subject) => subject.code ?? subject.id;
+
+// The country or trivia question behind a saved code, for retries and the progress screen.
+export function findSubject(modeId, code, data) {
+  return subjectsFor(modeId, data).find((subject) => subjectCode(subject) === code) ?? null;
 }
 
 function languageCap(modeId) {
@@ -388,22 +464,22 @@ function languageCap(modeId) {
   return modeId.startsWith('language-') || modeId.startsWith('writing-') ? MAX_PER_LANGUAGE : Infinity;
 }
 
-export function buildQuestion(modeId, country, data, rng) {
-  return { modeId, code: country.code, ...BUILDERS[modeId](country, data, rng) };
+export function buildQuestion(modeId, subject, data, rng) {
+  return { modeId, code: subjectCode(subject), ...BUILDERS[modeId](subject, data, rng) };
 }
 
 export function buildRound(modeId, data, rng, length = ROUND_LENGTH) {
   const cap = languageCap(modeId);
   const usedLanguages = new Map();
   const chosen = [];
-  for (const country of shuffled(eligibleCountries(modeId, data), rng)) {
-    const used = usedLanguages.get(country.language) ?? 0;
+  for (const subject of shuffled(subjectsFor(modeId, data), rng)) {
+    const used = usedLanguages.get(subject.language) ?? 0;
     if (used >= cap) continue;
-    usedLanguages.set(country.language, used + 1);
-    chosen.push(country);
+    usedLanguages.set(subject.language, used + 1);
+    chosen.push(subject);
     if (chosen.length === length) break;
   }
-  return chosen.map((country) => buildQuestion(modeId, country, data, rng));
+  return chosen.map((subject) => buildQuestion(modeId, subject, data, rng));
 }
 
 export function findMode(modeId) {

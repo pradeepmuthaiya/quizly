@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
-import { ROUND_LENGTH, allModeIds, buildQuestion, buildRound, prepareData } from '../js/game.js';
+import { ROUND_LENGTH, allModeIds, buildQuestion, buildRound, prepareData, subjectsFor } from '../js/game.js';
 
 const load = (name) => JSON.parse(readFileSync(new URL(`../data/${name}.json`, import.meta.url), 'utf8'));
-const data = prepareData({ countries: load('countries'), languages: load('languages'), samples: load('samples') });
+const data = prepareData({ countries: load('countries'), languages: load('languages'), samples: load('samples'), trivia: load('trivia') });
 
 function seeded(seed) {
   let state = seed;
@@ -18,9 +18,7 @@ function seeded(seed) {
 
 const optionKey = (option) => option.text ?? option.flag ?? option.sample.text;
 const byCode = new Map(data.countries.map((c) => [c.code, c]));
-const eligible = (modeId) => (modeId.startsWith('writing-')
-  ? data.countries.filter((c) => data.samples[c.sampleKey ?? c.language])
-  : data.countries);
+const eligible = (modeId) => subjectsFor(modeId, data);
 
 test('every mode builds a full round with no repeated country', () => {
   for (const modeId of allModeIds()) {
@@ -48,8 +46,8 @@ test('every question for every country has a valid answer, in every mode', () =>
   for (const modeId of allModeIds()) {
     for (const country of eligible(modeId)) {
       for (let seed = 0; seed < 8; seed++) {
-        const q = buildQuestion(modeId, country, data, seeded(seed * 1000 + country.code.charCodeAt(0)));
-        const label = `${modeId} ${country.name} seed ${seed}`;
+        const q = buildQuestion(modeId, country, data, seeded(seed * 1000 + (country.code ?? country.id).charCodeAt(0)));
+        const label = `${modeId} ${country.name ?? country.id} seed ${seed}`;
         assert.ok(q.prompt.text && q.fact && q.answerText, label);
         if (q.kind === 'type') {
           assert.ok(q.accepted.length && q.domain.length, label);

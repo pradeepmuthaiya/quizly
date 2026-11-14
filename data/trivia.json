@@ -1,0 +1,3095 @@
+{
+ "sports": [
+  {
+   "id": "sp01",
+   "q": "Which country won the first FIFA World Cup, in 1930?",
+   "a": "Uruguay",
+   "wrong": [
+    "Argentina",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  {
+   "id": "sp02",
+   "q": "Which country won the 2022 FIFA World Cup?",
+   "a": "Argentina",
+   "wrong": [
+    "France",
+    "Croatia",
+    "Brazil"
+   ]
+  },
+  {
+   "id": "sp03",
+   "q": "Which country won the 2014 FIFA World Cup?",
+   "a": "Germany",
+   "wrong": [
+    "Argentina",
+    "Netherlands",
+    "Brazil"
+   ]
+  },
+  {
+   "id": "sp04",
+   "q": "Which country hosted the 2014 FIFA World Cup?",
+   "a": "Brazil",
+   "wrong": [
+    "Germany",
+    "South Africa",
+    "Russia"
+   ]
+  },
+  {
+   "id": "sp05",
+   "q": "In which city were the first modern Olympic Games held, in 1896?",
+   "a": "Athens",
+   "wrong": [
+    "Paris",
+    "London",
+    "Rome"
+   ]
+  },
+  {
+   "id": "sp06",
+   "q": "Which city hosted the 2024 Summer Olympics?",
+   "a": "Paris",
+   "wrong": [
+    "Los Angeles",
+    "Tokyo",
+    "London"
+   ]
+  },
+  {
+   "id": "sp07",
+   "q": "Which city will host the 2028 Summer Olympics?",
+   "a": "Los Angeles",
+   "accept": [
+    "LA",
+    "L.A."
+   ],
+   "wrong": [
+    "Brisbane",
+    "Paris",
+    "Madrid"
+   ]
+  },
+  {
+   "id": "sp08",
+   "q": "How many rings are on the Olympic flag?",
+   "a": "5",
+   "accept": [
+    "five"
+   ],
+   "wrong": [
+    "4",
+    "6",
+    "7"
+   ]
+  },
+  {
+   "id": "sp09",
+   "q": "How many players does a soccer team have on the field at once?",
+   "a": "11",
+   "accept": [
+    "eleven"
+   ],
+   "wrong": [
+    "9",
+    "10",
+    "12"
+   ]
+  },
+  {
+   "id": "sp10",
+   "q": "How many players from one team are on a basketball court at once?",
+   "a": "5",
+   "accept": [
+    "five"
+   ],
+   "wrong": [
+    "4",
+    "6",
+    "7"
+   ]
+  },
+  {
+   "id": "sp11",
+   "q": "How many players from one team are on a volleyball court at once?",
+   "a": "6",
+   "accept": [
+    "six"
+   ],
+   "wrong": [
+    "5",
+    "7",
+    "9"
+   ]
+  },
+  {
+   "id": "sp12",
+   "q": "How long is a regulation soccer match, not counting stoppage time?",
+   "a": "90 minutes",
+   "accept": [
+    "90",
+    "ninety minutes",
+    "ninety"
+   ],
+   "wrong": [
+    "80 minutes",
+    "100 minutes",
+    "120 minutes"
+   ]
+  },
+  {
+   "id": "sp13",
+   "q": "How many holes are played in a standard round of golf?",
+   "a": "18",
+   "accept": [
+    "eighteen"
+   ],
+   "wrong": [
+    "9",
+    "12",
+    "21"
+   ]
+  },
+  {
+   "id": "sp14",
+   "q": "In golf, what is a score of one under par on a hole called?",
+   "a": "Birdie",
+   "wrong": [
+    "Eagle",
+    "Bogey",
+    "Albatross"
+   ]
+  },
+  {
+   "id": "sp15",
+   "q": "In golf, what is a score of three under par on a hole called?",
+   "a": "Albatross",
+   "accept": [
+    "double eagle"
+   ],
+   "wrong": [
+    "Eagle",
+    "Birdie",
+    "Condor"
+   ]
+  },
+  {
+   "id": "sp16",
+   "q": "In which sport is the Ryder Cup contested?",
+   "a": "Golf",
+   "wrong": [
+    "Tennis",
+    "Sailing",
+    "Cricket"
+   ]
+  },
+  {
+   "id": "sp17",
+   "q": "Which tennis Grand Slam tournament is played on clay?",
+   "a": "French Open",
+   "accept": [
+    "Roland Garros",
+    "Roland-Garros"
+   ],
+   "wrong": [
+    "Wimbledon",
+    "US Open",
+    "Australian Open"
+   ]
+  },
+  {
+   "id": "sp18",
+   "q": "Which tennis Grand Slam tournament is played on grass?",
+   "a": "Wimbledon",
+   "wrong": [
+    "French Open",
+    "US Open",
+    "Australian Open"
+   ]
+  },
+  {
+   "id": "sp19",
+   "q": "In tennis, what is a score of zero called?",
+   "a": "Love",
+   "wrong": [
+    "Nil",
+    "Duck",
+    "Zip"
+   ]
+  },
+  {
+   "id": "sp20",
+   "q": "In which sport do national teams compete for the Davis Cup?",
+   "a": "Tennis",
+   "wrong": [
+    "Golf",
+    "Squash",
+    "Badminton"
+   ]
+  },
+  {
+   "id": "sp21",
+   "q": "Which man has won the most Grand Slam singles titles in tennis?",
+   "a": "Novak Djokovic",
+   "accept": [
+    "Djokovic"
+   ],
+   "wrong": [
+    "Rafael Nadal",
+    "Roger Federer",
+    "Pete Sampras"
+   ]
+  },
+  {
+   "id": "sp22",
+   "q": "Which American player won 23 Grand Slam singles titles in the Open Era?",
+   "a": "Serena Williams",
+   "accept": [
+    "Serena"
+   ],
+   "wrong": [
+    "Steffi Graf",
+    "Venus Williams",
+    "Martina Navratilova"
+   ]
+  },
+  {
+   "id": "sp23",
+   "q": "What is the highest score possible with three darts in one turn?",
+   "a": "180",
+   "accept": [
+    "one hundred and eighty"
+   ],
+   "wrong": [
+    "150",
+    "160",
+    "200"
+   ]
+  },
+  {
+   "id": "sp24",
+   "q": "What is a perfect score in ten-pin bowling?",
+   "a": "300",
+   "accept": [
+    "three hundred"
+   ],
+   "wrong": [
+    "200",
+    "250",
+    "360"
+   ]
+  },
+  {
+   "id": "sp25",
+   "q": "In which country did judo originate?",
+   "a": "Japan",
+   "wrong": [
+    "China",
+    "South Korea",
+    "Brazil"
+   ]
+  },
+  {
+   "id": "sp26",
+   "q": "Which martial art from Korea is known for its high, fast kicks?",
+   "a": "Taekwondo",
+   "accept": [
+    "tae kwon do"
+   ],
+   "wrong": [
+    "Karate",
+    "Kung fu",
+    "Judo"
+   ]
+  },
+  {
+   "id": "sp27",
+   "q": "Which belt color traditionally marks an expert in karate?",
+   "a": "Black",
+   "wrong": [
+    "Brown",
+    "Red",
+    "White"
+   ]
+  },
+  {
+   "id": "sp28",
+   "q": "The Stanley Cup is the championship trophy in which sport?",
+   "a": "Ice hockey",
+   "accept": [
+    "hockey"
+   ],
+   "wrong": [
+    "Basketball",
+    "American football",
+    "Baseball"
+   ]
+  },
+  {
+   "id": "sp29",
+   "q": "How many periods are in a regulation NHL ice hockey game?",
+   "a": "3",
+   "accept": [
+    "three"
+   ],
+   "wrong": [
+    "2",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sp30",
+   "q": "The Super Bowl is the championship game of which league?",
+   "a": "NFL",
+   "accept": [
+    "National Football League"
+   ],
+   "wrong": [
+    "NBA",
+    "MLB",
+    "NHL"
+   ]
+  },
+  {
+   "id": "sp31",
+   "q": "In American football, how many points is a touchdown worth before the extra point?",
+   "a": "6",
+   "accept": [
+    "six"
+   ],
+   "wrong": [
+    "3",
+    "5",
+    "7"
+   ]
+  },
+  {
+   "id": "sp32",
+   "q": "In baseball, how many strikes make an out?",
+   "a": "3",
+   "accept": [
+    "three"
+   ],
+   "wrong": [
+    "2",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sp33",
+   "q": "Which basketball player is nicknamed \"King James\"?",
+   "a": "LeBron James",
+   "accept": [
+    "LeBron"
+   ],
+   "wrong": [
+    "Michael Jordan",
+    "Kobe Bryant",
+    "Stephen Curry"
+   ]
+  },
+  {
+   "id": "sp34",
+   "q": "Who invented basketball, in 1891?",
+   "a": "James Naismith",
+   "accept": [
+    "Naismith"
+   ],
+   "wrong": [
+    "Walter Camp",
+    "Abner Doubleday",
+    "William Morgan"
+   ]
+  },
+  {
+   "id": "sp35",
+   "q": "Which sport did William G. Morgan invent in 1895?",
+   "a": "Volleyball",
+   "wrong": [
+    "Basketball",
+    "Badminton",
+    "Handball"
+   ]
+  },
+  {
+   "id": "sp36",
+   "q": "In which sport is a shuttlecock used?",
+   "a": "Badminton",
+   "wrong": [
+    "Squash",
+    "Table tennis",
+    "Tennis"
+   ]
+  },
+  {
+   "id": "sp37",
+   "q": "Who ran the 100 meters in 9.58 seconds at the 2009 World Championships?",
+   "a": "Usain Bolt",
+   "accept": [
+    "Bolt"
+   ],
+   "wrong": [
+    "Carl Lewis",
+    "Tyson Gay",
+    "Yohan Blake"
+   ]
+  },
+  {
+   "id": "sp38",
+   "q": "Which swimmer has won the most Olympic gold medals?",
+   "a": "Michael Phelps",
+   "accept": [
+    "Phelps"
+   ],
+   "wrong": [
+    "Mark Spitz",
+    "Ian Thorpe",
+    "Ryan Lochte"
+   ]
+  },
+  {
+   "id": "sp39",
+   "q": "Which athlete won four gold medals at the 1936 Berlin Olympics?",
+   "a": "Jesse Owens",
+   "accept": [
+    "Owens"
+   ],
+   "wrong": [
+    "Carl Lewis",
+    "Jim Thorpe",
+    "Paavo Nurmi"
+   ]
+  },
+  {
+   "id": "sp40",
+   "q": "Which gymnast scored the first perfect 10 at the Olympics, in 1976?",
+   "a": "Nadia Comăneci",
+   "accept": [
+    "Nadia Comaneci",
+    "Comaneci",
+    "Nadia"
+   ],
+   "wrong": [
+    "Olga Korbut",
+    "Simone Biles",
+    "Mary Lou Retton"
+   ]
+  },
+  {
+   "id": "sp41",
+   "q": "Simone Biles is a champion in which sport?",
+   "a": "Gymnastics",
+   "accept": [
+    "artistic gymnastics"
+   ],
+   "wrong": [
+    "Diving",
+    "Figure skating",
+    "Track and field"
+   ]
+  },
+  {
+   "id": "sp42",
+   "q": "About how long is a marathon?",
+   "a": "42.2 km",
+   "accept": [
+    "42.2",
+    "42",
+    "42 km",
+    "26.2 miles",
+    "26.2"
+   ],
+   "wrong": [
+    "36.5 km",
+    "40 km",
+    "50 km"
+   ],
+   "type": false
+  },
+  {
+   "id": "sp43",
+   "q": "How long is an Olympic-size swimming pool?",
+   "a": "50 meters",
+   "accept": [
+    "50",
+    "50 m",
+    "50 metres",
+    "fifty meters"
+   ],
+   "wrong": [
+    "25 meters",
+    "75 meters",
+    "100 meters"
+   ]
+  },
+  {
+   "id": "sp44",
+   "q": "How many events are in the Olympic decathlon?",
+   "a": "10",
+   "accept": [
+    "ten"
+   ],
+   "wrong": [
+    "5",
+    "7",
+    "12"
+   ]
+  },
+  {
+   "id": "sp45",
+   "q": "The Tour de France is a race in which sport?",
+   "a": "Cycling",
+   "accept": [
+    "road cycling",
+    "bicycle racing",
+    "bike racing"
+   ],
+   "wrong": [
+    "Running",
+    "Motor racing",
+    "Rowing"
+   ]
+  },
+  {
+   "id": "sp46",
+   "q": "What color jersey does the overall leader of the Tour de France wear?",
+   "a": "Yellow",
+   "wrong": [
+    "Green",
+    "Pink",
+    "White"
+   ]
+  },
+  {
+   "id": "sp47",
+   "q": "In which sport do teams compete for the America's Cup?",
+   "a": "Sailing",
+   "accept": [
+    "yachting",
+    "yacht racing"
+   ],
+   "wrong": [
+    "Rowing",
+    "Golf",
+    "Polo"
+   ]
+  },
+  {
+   "id": "sp48",
+   "q": "Which German driver won seven Formula One world championships?",
+   "a": "Michael Schumacher",
+   "accept": [
+    "Schumacher"
+   ],
+   "wrong": [
+    "Sebastian Vettel",
+    "Nico Rosberg",
+    "Niki Lauda"
+   ]
+  },
+  {
+   "id": "sp49",
+   "q": "Which boxer called himself \"The Greatest\"?",
+   "a": "Muhammad Ali",
+   "accept": [
+    "Ali",
+    "Cassius Clay"
+   ],
+   "wrong": [
+    "Mike Tyson",
+    "Joe Frazier",
+    "George Foreman"
+   ]
+  },
+  {
+   "id": "sp50",
+   "q": "In which country did the sport of rugby begin?",
+   "a": "England",
+   "wrong": [
+    "New Zealand",
+    "France",
+    "South Africa"
+   ]
+  },
+  {
+   "id": "sp51",
+   "q": "Which country's rugby union team is called the All Blacks?",
+   "a": "New Zealand",
+   "wrong": [
+    "Australia",
+    "South Africa",
+    "Fiji"
+   ]
+  },
+  {
+   "id": "sp52",
+   "q": "Which country won the 2023 Rugby World Cup?",
+   "a": "South Africa",
+   "wrong": [
+    "New Zealand",
+    "France",
+    "England"
+   ]
+  },
+  {
+   "id": "sp53",
+   "q": "In cricket, how many balls are in a standard over?",
+   "a": "6",
+   "accept": [
+    "six"
+   ],
+   "wrong": [
+    "5",
+    "8",
+    "10"
+   ]
+  },
+  {
+   "id": "sp54",
+   "q": "The Ashes is a famous series between England and Australia in which sport?",
+   "a": "Cricket",
+   "wrong": [
+    "Rugby",
+    "Tennis",
+    "Golf"
+   ]
+  },
+  {
+   "id": "sp55",
+   "q": "Which team won the first men's Cricket World Cup, in 1975?",
+   "a": "West Indies",
+   "accept": [
+    "Windies"
+   ],
+   "wrong": [
+    "Australia",
+    "England",
+    "India"
+   ]
+  },
+  {
+   "id": "sp56",
+   "q": "Which country has won the most men's Cricket World Cups?",
+   "a": "Australia",
+   "wrong": [
+    "India",
+    "West Indies",
+    "England"
+   ]
+  },
+  {
+   "id": "sp57",
+   "q": "Which footballer is nicknamed \"CR7\"?",
+   "a": "Cristiano Ronaldo",
+   "accept": [
+    "Ronaldo",
+    "Cristiano"
+   ],
+   "wrong": [
+    "Lionel Messi",
+    "Neymar",
+    "Kylian Mbappé"
+   ]
+  },
+  {
+   "id": "sp58",
+   "q": "In which country was Lionel Messi born?",
+   "a": "Argentina",
+   "wrong": [
+    "Spain",
+    "Uruguay",
+    "Brazil"
+   ]
+  },
+  {
+   "id": "sp59",
+   "q": "Which country has won the most Summer Olympic gold medals overall?",
+   "a": "United States",
+   "accept": [
+    "USA",
+    "US",
+    "U.S.",
+    "America",
+    "United States of America"
+   ],
+   "wrong": [
+    "Soviet Union",
+    "China",
+    "Great Britain"
+   ]
+  },
+  {
+   "id": "sp60",
+   "q": "Which game ends with \"checkmate\"?",
+   "a": "Chess",
+   "wrong": [
+    "Checkers",
+    "Go",
+    "Backgammon"
+   ]
+  },
+  {
+   "id": "sp61",
+   "q": "How many races make up the Triple Crown of US horse racing?",
+   "a": "3",
+   "accept": [
+    "three"
+   ],
+   "wrong": [
+    "2",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sp62",
+   "q": "Sumo wrestling is the traditional sport of which country?",
+   "a": "Japan",
+   "wrong": [
+    "China",
+    "Thailand",
+    "South Korea"
+   ]
+  }
+ ],
+ "history": [
+  {
+   "id": "hi01",
+   "q": "In which year did World War I begin?",
+   "a": "1914",
+   "wrong": [
+    "1912",
+    "1916",
+    "1918"
+   ]
+  },
+  {
+   "id": "hi02",
+   "q": "In which year did World War II end?",
+   "a": "1945",
+   "wrong": [
+    "1939",
+    "1944",
+    "1946"
+   ]
+  },
+  {
+   "id": "hi03",
+   "q": "The Treaty of Versailles formally ended which war?",
+   "a": "World War I",
+   "accept": [
+    "WWI",
+    "WW1",
+    "First World War",
+    "the Great War",
+    "World War One"
+   ],
+   "wrong": [
+    "World War II",
+    "the Napoleonic Wars",
+    "the Crimean War"
+   ]
+  },
+  {
+   "id": "hi04",
+   "q": "In which year did the Berlin Wall fall?",
+   "a": "1989",
+   "wrong": [
+    "1985",
+    "1987",
+    "1991"
+   ]
+  },
+  {
+   "id": "hi05",
+   "q": "In which year did the Soviet Union dissolve?",
+   "a": "1991",
+   "wrong": [
+    "1985",
+    "1989",
+    "1993"
+   ]
+  },
+  {
+   "id": "hi06",
+   "q": "In which year did the Korean War begin?",
+   "a": "1950",
+   "wrong": [
+    "1945",
+    "1948",
+    "1953"
+   ]
+  },
+  {
+   "id": "hi07",
+   "q": "In which year did the September 11 attacks take place?",
+   "a": "2001",
+   "wrong": [
+    "1999",
+    "2000",
+    "2003"
+   ]
+  },
+  {
+   "id": "hi08",
+   "q": "Who was the first emperor of Rome?",
+   "a": "Augustus",
+   "accept": [
+    "Octavian",
+    "Caesar Augustus"
+   ],
+   "wrong": [
+    "Julius Caesar",
+    "Nero",
+    "Caligula"
+   ]
+  },
+  {
+   "id": "hi09",
+   "q": "Hadrian's Wall in northern England was built by which people?",
+   "a": "Romans",
+   "accept": [
+    "the Romans",
+    "Roman Empire",
+    "Rome"
+   ],
+   "wrong": [
+    "Vikings",
+    "Normans",
+    "Saxons"
+   ]
+  },
+  {
+   "id": "hi10",
+   "q": "Which Egyptian queen allied with Julius Caesar and Mark Antony?",
+   "a": "Cleopatra",
+   "accept": [
+    "Cleopatra VII"
+   ],
+   "wrong": [
+    "Nefertiti",
+    "Hatshepsut",
+    "Nefertari"
+   ]
+  },
+  {
+   "id": "hi11",
+   "q": "Whose nearly intact tomb was discovered in Egypt's Valley of the Kings in 1922?",
+   "a": "Tutankhamun",
+   "accept": [
+    "Tutankhamen",
+    "King Tut",
+    "Tut"
+   ],
+   "wrong": [
+    "Ramesses II",
+    "Khufu",
+    "Akhenaten"
+   ]
+  },
+  {
+   "id": "hi12",
+   "q": "Which ancient civilization built the pyramids at Giza?",
+   "a": "Ancient Egyptians",
+   "accept": [
+    "Egyptians",
+    "Egypt",
+    "Ancient Egypt"
+   ],
+   "wrong": [
+    "Babylonians",
+    "Persians",
+    "Nubians"
+   ]
+  },
+  {
+   "id": "hi13",
+   "q": "The Rosetta Stone was the key to reading which writing system?",
+   "a": "Egyptian hieroglyphs",
+   "accept": [
+    "hieroglyphs",
+    "hieroglyphics",
+    "Egyptian hieroglyphics"
+   ],
+   "wrong": [
+    "Cuneiform",
+    "Linear B",
+    "Maya glyphs"
+   ]
+  },
+  {
+   "id": "hi14",
+   "q": "Which Babylonian king is famous for an early written code of laws?",
+   "a": "Hammurabi",
+   "accept": [
+    "Hammurapi"
+   ],
+   "wrong": [
+    "Nebuchadnezzar II",
+    "Sargon of Akkad",
+    "Gilgamesh"
+   ]
+  },
+  {
+   "id": "hi15",
+   "q": "Which Greek city-state was famous for its strict military culture?",
+   "a": "Sparta",
+   "wrong": [
+    "Athens",
+    "Corinth",
+    "Thebes"
+   ]
+  },
+  {
+   "id": "hi16",
+   "q": "Which Macedonian king built an empire stretching to India before he was 33?",
+   "a": "Alexander the Great",
+   "accept": [
+    "Alexander",
+    "Alexander III"
+   ],
+   "wrong": [
+    "Philip II",
+    "Darius I",
+    "Leonidas"
+   ]
+  },
+  {
+   "id": "hi17",
+   "q": "Who was the first emperor of a unified China?",
+   "a": "Qin Shi Huang",
+   "accept": [
+    "Qin Shi Huangdi",
+    "Shi Huangdi"
+   ],
+   "wrong": [
+    "Kublai Khan",
+    "Liu Bang",
+    "Sun Yat-sen"
+   ]
+  },
+  {
+   "id": "hi18",
+   "q": "Which Chinese admiral led huge \"treasure fleet\" voyages in the early 1400s?",
+   "a": "Zheng He",
+   "wrong": [
+    "Kublai Khan",
+    "Sun Yat-sen",
+    "Qin Shi Huang"
+   ]
+  },
+  {
+   "id": "hi19",
+   "q": "Which Venetian traveler wrote about his years at Kublai Khan's court?",
+   "a": "Marco Polo",
+   "accept": [
+    "Polo"
+   ],
+   "wrong": [
+    "Ibn Battuta",
+    "Zheng He",
+    "Vasco da Gama"
+   ]
+  },
+  {
+   "id": "hi20",
+   "q": "Which empire was founded by Genghis Khan?",
+   "a": "Mongol Empire",
+   "accept": [
+    "Mongol",
+    "Mongols",
+    "Mongolian Empire"
+   ],
+   "wrong": [
+    "Ottoman Empire",
+    "Persian Empire",
+    "Byzantine Empire"
+   ]
+  },
+  {
+   "id": "hi21",
+   "q": "What was the capital of the Byzantine Empire?",
+   "a": "Constantinople",
+   "accept": [
+    "Istanbul",
+    "Byzantium"
+   ],
+   "wrong": [
+    "Rome",
+    "Athens",
+    "Antioch"
+   ]
+  },
+  {
+   "id": "hi22",
+   "q": "In which year did Constantinople fall to the Ottomans?",
+   "a": "1453",
+   "wrong": [
+    "1389",
+    "1492",
+    "1517"
+   ]
+  },
+  {
+   "id": "hi23",
+   "q": "Which Ottoman sultan conquered Constantinople?",
+   "a": "Mehmed II",
+   "accept": [
+    "Mehmed the Conqueror",
+    "Mehmet II",
+    "Mehmed"
+   ],
+   "wrong": [
+    "Suleiman the Magnificent",
+    "Selim I",
+    "Osman I"
+   ]
+  },
+  {
+   "id": "hi24",
+   "q": "In which year was the Battle of Hastings fought?",
+   "a": "1066",
+   "wrong": [
+    "1086",
+    "1166",
+    "1215"
+   ]
+  },
+  {
+   "id": "hi25",
+   "q": "In which year was Magna Carta sealed?",
+   "a": "1215",
+   "wrong": [
+    "1066",
+    "1314",
+    "1415"
+   ]
+  },
+  {
+   "id": "hi26",
+   "q": "Which queen ruled England when the Spanish Armada was defeated in 1588?",
+   "a": "Elizabeth I",
+   "accept": [
+    "Queen Elizabeth I",
+    "Elizabeth the First"
+   ],
+   "wrong": [
+    "Mary I",
+    "Victoria",
+    "Anne"
+   ]
+  },
+  {
+   "id": "hi27",
+   "q": "Who is the longest-reigning monarch in British history?",
+   "a": "Elizabeth II",
+   "accept": [
+    "Queen Elizabeth II",
+    "Elizabeth the Second"
+   ],
+   "wrong": [
+    "Victoria",
+    "George III",
+    "Elizabeth I"
+   ]
+  },
+  {
+   "id": "hi28",
+   "q": "In which century did the Black Death sweep through Europe?",
+   "a": "14th century",
+   "accept": [
+    "14th",
+    "fourteenth",
+    "fourteenth century",
+    "1300s"
+   ],
+   "wrong": [
+    "10th century",
+    "12th century",
+    "16th century"
+   ]
+  },
+  {
+   "id": "hi29",
+   "q": "In which country did the Renaissance begin?",
+   "a": "Italy",
+   "wrong": [
+    "France",
+    "Greece",
+    "Spain"
+   ]
+  },
+  {
+   "id": "hi30",
+   "q": "Who painted the ceiling of the Sistine Chapel?",
+   "a": "Michelangelo",
+   "accept": [
+    "Michelangelo Buonarroti"
+   ],
+   "wrong": [
+    "Leonardo da Vinci",
+    "Raphael",
+    "Donatello"
+   ]
+  },
+  {
+   "id": "hi31",
+   "q": "Which country sponsored Christopher Columbus's voyage in 1492?",
+   "a": "Spain",
+   "accept": [
+    "Castile"
+   ],
+   "wrong": [
+    "Portugal",
+    "Italy",
+    "England"
+   ]
+  },
+  {
+   "id": "hi32",
+   "q": "Which explorer reached India by sea from Europe in 1498?",
+   "a": "Vasco da Gama",
+   "accept": [
+    "da Gama"
+   ],
+   "wrong": [
+    "Ferdinand Magellan",
+    "Christopher Columbus",
+    "Bartolomeu Dias"
+   ]
+  },
+  {
+   "id": "hi33",
+   "q": "Whose expedition made the first voyage around the world, completed in 1522?",
+   "a": "Ferdinand Magellan",
+   "accept": [
+    "Magellan"
+   ],
+   "wrong": [
+    "Christopher Columbus",
+    "Vasco da Gama",
+    "Francis Drake"
+   ]
+  },
+  {
+   "id": "hi34",
+   "q": "Which Spanish conquistador conquered the Aztec Empire?",
+   "a": "Hernán Cortés",
+   "accept": [
+    "Cortes",
+    "Hernan Cortes",
+    "Cortez",
+    "Hernando Cortes"
+   ],
+   "wrong": [
+    "Francisco Pizarro",
+    "Hernando de Soto",
+    "Vasco Núñez de Balboa"
+   ]
+  },
+  {
+   "id": "hi35",
+   "q": "Which civilization built the city of Tenochtitlan?",
+   "a": "Aztecs",
+   "accept": [
+    "Aztec",
+    "Aztec Empire",
+    "Mexica"
+   ],
+   "wrong": [
+    "Inca",
+    "Maya",
+    "Olmec"
+   ]
+  },
+  {
+   "id": "hi36",
+   "q": "Which civilization built Machu Picchu?",
+   "a": "Inca",
+   "accept": [
+    "Incas",
+    "Inca Empire"
+   ],
+   "wrong": [
+    "Maya",
+    "Aztec",
+    "Olmec"
+   ]
+  },
+  {
+   "id": "hi37",
+   "q": "In which year was the US Declaration of Independence adopted?",
+   "a": "1776",
+   "wrong": [
+    "1765",
+    "1783",
+    "1789"
+   ]
+  },
+  {
+   "id": "hi38",
+   "q": "Who was the first President of the United States?",
+   "a": "George Washington",
+   "accept": [
+    "Washington"
+   ],
+   "wrong": [
+    "John Adams",
+    "Thomas Jefferson",
+    "Benjamin Franklin"
+   ]
+  },
+  {
+   "id": "hi39",
+   "q": "Who was President of the United States during the Civil War?",
+   "a": "Abraham Lincoln",
+   "accept": [
+    "Lincoln"
+   ],
+   "wrong": [
+    "Ulysses S. Grant",
+    "Andrew Johnson",
+    "James Buchanan"
+   ]
+  },
+  {
+   "id": "hi40",
+   "q": "In which year did the French Revolution begin?",
+   "a": "1789",
+   "wrong": [
+    "1776",
+    "1799",
+    "1815"
+   ]
+  },
+  {
+   "id": "hi41",
+   "q": "Which French leader was defeated at the Battle of Waterloo in 1815?",
+   "a": "Napoleon Bonaparte",
+   "accept": [
+    "Napoleon",
+    "Napoleon I",
+    "Bonaparte"
+   ],
+   "wrong": [
+    "Louis XIV",
+    "Louis XVI",
+    "Charles de Gaulle"
+   ]
+  },
+  {
+   "id": "hi42",
+   "q": "In which country did the Industrial Revolution begin?",
+   "a": "Great Britain",
+   "accept": [
+    "Britain",
+    "England",
+    "United Kingdom",
+    "UK"
+   ],
+   "wrong": [
+    "France",
+    "Germany",
+    "United States"
+   ]
+  },
+  {
+   "id": "hi43",
+   "q": "Who wrote \"The Communist Manifesto\" with Friedrich Engels?",
+   "a": "Karl Marx",
+   "accept": [
+    "Marx"
+   ],
+   "wrong": [
+    "Vladimir Lenin",
+    "Adam Smith",
+    "Leon Trotsky"
+   ]
+  },
+  {
+   "id": "hi44",
+   "q": "Who led the Bolsheviks to power in Russia in 1917?",
+   "a": "Vladimir Lenin",
+   "accept": [
+    "Lenin"
+   ],
+   "wrong": [
+    "Nicholas II",
+    "Alexander Kerensky",
+    "Karl Marx"
+   ]
+  },
+  {
+   "id": "hi45",
+   "q": "Who led the Soviet Union for most of World War II?",
+   "a": "Joseph Stalin",
+   "accept": [
+    "Stalin"
+   ],
+   "wrong": [
+    "Vladimir Lenin",
+    "Nikita Khrushchev",
+    "Leon Trotsky"
+   ]
+  },
+  {
+   "id": "hi46",
+   "q": "Who was the UK's prime minister for most of World War II?",
+   "a": "Winston Churchill",
+   "accept": [
+    "Churchill"
+   ],
+   "wrong": [
+    "Neville Chamberlain",
+    "Clement Attlee",
+    "Anthony Eden"
+   ]
+  },
+  {
+   "id": "hi47",
+   "q": "Which country dropped atomic bombs on Hiroshima and Nagasaki?",
+   "a": "United States",
+   "accept": [
+    "USA",
+    "US",
+    "U.S.",
+    "America",
+    "United States of America"
+   ],
+   "wrong": [
+    "Soviet Union",
+    "United Kingdom",
+    "China"
+   ]
+  },
+  {
+   "id": "hi48",
+   "q": "Which ship sank on its maiden voyage in 1912?",
+   "a": "Titanic",
+   "accept": [
+    "RMS Titanic"
+   ],
+   "wrong": [
+    "Lusitania",
+    "Britannic",
+    "Queen Mary"
+   ]
+  },
+  {
+   "id": "hi49",
+   "q": "The Cold War was mainly a rivalry between the United States and which country?",
+   "a": "Soviet Union",
+   "accept": [
+    "USSR",
+    "the Soviet Union",
+    "U.S.S.R."
+   ],
+   "wrong": [
+    "China",
+    "Germany",
+    "Cuba"
+   ]
+  },
+  {
+   "id": "hi50",
+   "q": "Who was the first human in space?",
+   "a": "Yuri Gagarin",
+   "accept": [
+    "Gagarin"
+   ],
+   "wrong": [
+    "Alan Shepard",
+    "John Glenn",
+    "Valentina Tereshkova"
+   ]
+  },
+  {
+   "id": "hi51",
+   "q": "In which year did humans first land on the Moon?",
+   "a": "1969",
+   "wrong": [
+    "1965",
+    "1967",
+    "1971"
+   ]
+  },
+  {
+   "id": "hi52",
+   "q": "Who was the first person to walk on the Moon?",
+   "a": "Neil Armstrong",
+   "accept": [
+    "Armstrong"
+   ],
+   "wrong": [
+    "Buzz Aldrin",
+    "Yuri Gagarin",
+    "John Glenn"
+   ]
+  },
+  {
+   "id": "hi53",
+   "q": "In which year did India gain independence from Britain?",
+   "a": "1947",
+   "wrong": [
+    "1942",
+    "1945",
+    "1950"
+   ]
+  },
+  {
+   "id": "hi54",
+   "q": "Who led India's nonviolent campaign for independence?",
+   "a": "Mahatma Gandhi",
+   "accept": [
+    "Gandhi",
+    "Mohandas Gandhi",
+    "Mohandas Karamchand Gandhi"
+   ],
+   "wrong": [
+    "Jawaharlal Nehru",
+    "Subhas Chandra Bose",
+    "B. R. Ambedkar"
+   ]
+  },
+  {
+   "id": "hi55",
+   "q": "Which country did Mao Zedong lead from 1949?",
+   "a": "China",
+   "accept": [
+    "People's Republic of China",
+    "PRC"
+   ],
+   "wrong": [
+    "Vietnam",
+    "North Korea",
+    "Mongolia"
+   ]
+  },
+  {
+   "id": "hi56",
+   "q": "Which country's modernization began with the Meiji Restoration of 1868?",
+   "a": "Japan",
+   "wrong": [
+    "China",
+    "Korea",
+    "Thailand"
+   ]
+  },
+  {
+   "id": "hi57",
+   "q": "The fall of Saigon in 1975 marked the end of which war?",
+   "a": "Vietnam War",
+   "accept": [
+    "Vietnam",
+    "the Vietnam War",
+    "Second Indochina War"
+   ],
+   "wrong": [
+    "Korean War",
+    "Gulf War",
+    "Cold War"
+   ]
+  },
+  {
+   "id": "hi58",
+   "q": "Nelson Mandela became president of which country in 1994?",
+   "a": "South Africa",
+   "wrong": [
+    "Zimbabwe",
+    "Namibia",
+    "Kenya"
+   ]
+  },
+  {
+   "id": "hi59",
+   "q": "Who was the first woman to win a Nobel Prize?",
+   "a": "Marie Curie",
+   "accept": [
+    "Curie",
+    "Marie Skłodowska-Curie",
+    "Marie Sklodowska Curie"
+   ],
+   "wrong": [
+    "Rosalind Franklin",
+    "Ada Lovelace",
+    "Florence Nightingale"
+   ]
+  },
+  {
+   "id": "hi60",
+   "q": "Who was the UK's first female prime minister?",
+   "a": "Margaret Thatcher",
+   "accept": [
+    "Thatcher"
+   ],
+   "wrong": [
+    "Theresa May",
+    "Liz Truss",
+    "Barbara Castle"
+   ]
+  },
+  {
+   "id": "hi61",
+   "q": "Which 1863 order by Abraham Lincoln declared enslaved people in the Confederacy free?",
+   "a": "Emancipation Proclamation",
+   "accept": [
+    "the Emancipation Proclamation"
+   ],
+   "wrong": [
+    "Gettysburg Address",
+    "Bill of Rights",
+    "Monroe Doctrine"
+   ]
+  }
+ ],
+ "religion": [
+  {
+   "id": "re01",
+   "q": "According to Islamic tradition, in which cave did Muhammad receive his first revelation?",
+   "a": "Hira",
+   "accept": [
+    "Cave of Hira",
+    "Mount Hira",
+    "Hira cave"
+   ],
+   "wrong": [
+    "Thawr",
+    "Machpelah",
+    "Qumran"
+   ]
+  },
+  {
+   "id": "re02",
+   "q": "In which year CE did Muhammad's migration from Mecca to Medina, the Hijra, take place?",
+   "a": "622",
+   "accept": [
+    "622 CE",
+    "622 AD",
+    "AD 622"
+   ],
+   "wrong": [
+    "570",
+    "610",
+    "632"
+   ]
+  },
+  {
+   "id": "re03",
+   "q": "To which city did Muhammad migrate in the Hijra?",
+   "a": "Medina",
+   "accept": [
+    "Madinah",
+    "Yathrib"
+   ],
+   "wrong": [
+    "Mecca",
+    "Jerusalem",
+    "Taif"
+   ]
+  },
+  {
+   "id": "re04",
+   "q": "Which city is the holiest in Islam?",
+   "a": "Mecca",
+   "accept": [
+    "Makkah"
+   ],
+   "wrong": [
+    "Medina",
+    "Jerusalem",
+    "Karbala"
+   ]
+  },
+  {
+   "id": "re05",
+   "q": "The Kaaba stands at the center of which mosque?",
+   "a": "Masjid al-Haram",
+   "accept": [
+    "al-Masjid al-Haram",
+    "Great Mosque of Mecca",
+    "Grand Mosque",
+    "Grand Mosque of Mecca",
+    "Haram"
+   ],
+   "wrong": [
+    "Al-Aqsa Mosque",
+    "Prophet's Mosque",
+    "Blue Mosque"
+   ]
+  },
+  {
+   "id": "re06",
+   "q": "In which city is the Dome of the Rock?",
+   "a": "Jerusalem",
+   "wrong": [
+    "Mecca",
+    "Medina",
+    "Damascus"
+   ]
+  },
+  {
+   "id": "re07",
+   "q": "Which city was the capital of the Umayyad Caliphate?",
+   "a": "Damascus",
+   "wrong": [
+    "Baghdad",
+    "Cairo",
+    "Medina"
+   ]
+  },
+  {
+   "id": "re08",
+   "q": "Which caliphate founded Baghdad as its capital in 762?",
+   "a": "Abbasid Caliphate",
+   "accept": [
+    "Abbasid",
+    "Abbasids",
+    "Abbasid dynasty"
+   ],
+   "wrong": [
+    "Umayyad Caliphate",
+    "Fatimid Caliphate",
+    "Rashidun Caliphate"
+   ]
+  },
+  {
+   "id": "re09",
+   "q": "Who founded Sikhism?",
+   "a": "Guru Nanak",
+   "accept": [
+    "Nanak",
+    "Guru Nanak Dev"
+   ],
+   "wrong": [
+    "Guru Gobind Singh",
+    "Kabir",
+    "Guru Arjan"
+   ]
+  },
+  {
+   "id": "re10",
+   "q": "Which Sikh guru founded the Khalsa in 1699?",
+   "a": "Guru Gobind Singh",
+   "accept": [
+    "Gobind Singh"
+   ],
+   "wrong": [
+    "Guru Nanak",
+    "Guru Arjan",
+    "Guru Tegh Bahadur"
+   ]
+  },
+  {
+   "id": "re11",
+   "q": "In which city is the Golden Temple, the holiest gurdwara of Sikhism?",
+   "a": "Amritsar",
+   "wrong": [
+    "Lahore",
+    "Delhi",
+    "Anandpur Sahib"
+   ]
+  },
+  {
+   "id": "re12",
+   "q": "Siddhartha Gautama, the Buddha, was born in Lumbini, in which present-day country?",
+   "a": "Nepal",
+   "wrong": [
+    "India",
+    "Sri Lanka",
+    "Bhutan"
+   ]
+  },
+  {
+   "id": "re13",
+   "q": "According to tradition, under what kind of tree did the Buddha attain enlightenment?",
+   "a": "Bodhi tree",
+   "accept": [
+    "Bodhi",
+    "fig tree",
+    "sacred fig",
+    "pipal",
+    "peepal"
+   ],
+   "wrong": [
+    "Banyan tree",
+    "Neem tree",
+    "Mango tree"
+   ]
+  },
+  {
+   "id": "re14",
+   "q": "Which Indian emperor embraced Buddhism and spread it after the Kalinga war?",
+   "a": "Ashoka",
+   "accept": [
+    "Asoka",
+    "Ashoka the Great"
+   ],
+   "wrong": [
+    "Chandragupta Maurya",
+    "Akbar",
+    "Harsha"
+   ]
+  },
+  {
+   "id": "re15",
+   "q": "Which Mughal emperor promoted a blended faith called Din-i Ilahi?",
+   "a": "Akbar",
+   "accept": [
+    "Akbar the Great"
+   ],
+   "wrong": [
+    "Aurangzeb",
+    "Babur",
+    "Shah Jahan"
+   ]
+  },
+  {
+   "id": "re16",
+   "q": "In which Hindu epic does the Bhagavad Gita appear?",
+   "a": "Mahabharata",
+   "wrong": [
+    "Ramayana",
+    "Rigveda",
+    "Upanishads"
+   ]
+  },
+  {
+   "id": "re17",
+   "q": "Which is the oldest of the four Vedas?",
+   "a": "Rigveda",
+   "accept": [
+    "Rig Veda",
+    "Rgveda"
+   ],
+   "wrong": [
+    "Samaveda",
+    "Yajurveda",
+    "Atharvaveda"
+   ]
+  },
+  {
+   "id": "re18",
+   "q": "In which language were the Vedas composed?",
+   "a": "Sanskrit",
+   "accept": [
+    "Vedic Sanskrit"
+   ],
+   "wrong": [
+    "Pali",
+    "Tamil",
+    "Prakrit"
+   ]
+  },
+  {
+   "id": "re19",
+   "q": "What is the Hindu festival of lights called?",
+   "a": "Diwali",
+   "accept": [
+    "Deepavali",
+    "Divali"
+   ],
+   "wrong": [
+    "Holi",
+    "Navaratri",
+    "Pongal"
+   ]
+  },
+  {
+   "id": "re20",
+   "q": "Angkor Wat in Cambodia was first built as a temple to which Hindu god?",
+   "a": "Vishnu",
+   "wrong": [
+    "Shiva",
+    "Brahma",
+    "Indra"
+   ]
+  },
+  {
+   "id": "re21",
+   "q": "Mahavira was the 24th Tirthankara of which religion?",
+   "a": "Jainism",
+   "wrong": [
+    "Buddhism",
+    "Hinduism",
+    "Sikhism"
+   ]
+  },
+  {
+   "id": "re22",
+   "q": "Zoroastrianism was the main religion of which ancient empire?",
+   "a": "Persian Empire",
+   "accept": [
+    "Persia",
+    "Persians",
+    "Achaemenid Empire",
+    "Sasanian Empire",
+    "Sassanid Empire"
+   ],
+   "wrong": [
+    "Roman Empire",
+    "Maurya Empire",
+    "Ottoman Empire"
+   ]
+  },
+  {
+   "id": "re23",
+   "q": "Who is regarded as the founder of Zoroastrianism?",
+   "a": "Zoroaster",
+   "accept": [
+    "Zarathustra",
+    "Zarathushtra"
+   ],
+   "wrong": [
+    "Mani",
+    "Mithras",
+    "Cyrus the Great"
+   ]
+  },
+  {
+   "id": "re24",
+   "q": "Confucianism grew from the teachings of a thinker from which country?",
+   "a": "China",
+   "wrong": [
+    "Japan",
+    "Korea",
+    "India"
+   ]
+  },
+  {
+   "id": "re25",
+   "q": "Which classic text of Taoism is traditionally attributed to Laozi?",
+   "a": "Tao Te Ching",
+   "accept": [
+    "Daodejing",
+    "Dao De Jing",
+    "Tao Te King"
+   ],
+   "wrong": [
+    "Analects",
+    "The Art of War",
+    "I Ching"
+   ]
+  },
+  {
+   "id": "re26",
+   "q": "Shinto is the native religion of which country?",
+   "a": "Japan",
+   "wrong": [
+    "China",
+    "Korea",
+    "Vietnam"
+   ]
+  },
+  {
+   "id": "re27",
+   "q": "Who founded the Bahá'í Faith in the 19th century?",
+   "a": "Bahá'u'lláh",
+   "accept": [
+    "Bahaullah",
+    "Baha'u'llah",
+    "Baha ullah"
+   ],
+   "wrong": [
+    "Mani",
+    "Joseph Smith",
+    "Zoroaster"
+   ]
+  },
+  {
+   "id": "re28",
+   "q": "Which Babylonian king destroyed the First Temple in Jerusalem, around 586 BCE?",
+   "a": "Nebuchadnezzar II",
+   "accept": [
+    "Nebuchadnezzar"
+   ],
+   "wrong": [
+    "Cyrus the Great",
+    "Hammurabi",
+    "Sargon II"
+   ]
+  },
+  {
+   "id": "re29",
+   "q": "Which Persian king allowed exiled Jews to return to Jerusalem?",
+   "a": "Cyrus the Great",
+   "accept": [
+    "Cyrus",
+    "Cyrus II"
+   ],
+   "wrong": [
+    "Xerxes I",
+    "Nebuchadnezzar II",
+    "Ashurbanipal"
+   ]
+  },
+  {
+   "id": "re30",
+   "q": "In which year CE did the Romans destroy the Second Temple in Jerusalem?",
+   "a": "70",
+   "accept": [
+    "70 CE",
+    "70 AD",
+    "AD 70"
+   ],
+   "wrong": [
+    "33",
+    "135",
+    "312"
+   ]
+  },
+  {
+   "id": "re31",
+   "q": "Which Jewish festival marks the rededication of the Second Temple?",
+   "a": "Hanukkah",
+   "accept": [
+    "Chanukah",
+    "Hanukah",
+    "Chanukkah"
+   ],
+   "wrong": [
+    "Passover",
+    "Purim",
+    "Sukkot"
+   ]
+  },
+  {
+   "id": "re32",
+   "q": "Which Jewish festival commemorates the Exodus from Egypt?",
+   "a": "Passover",
+   "accept": [
+    "Pesach"
+   ],
+   "wrong": [
+    "Hanukkah",
+    "Yom Kippur",
+    "Shavuot"
+   ]
+  },
+  {
+   "id": "re33",
+   "q": "Near which site were the Dead Sea Scrolls first found?",
+   "a": "Qumran",
+   "wrong": [
+    "Masada",
+    "Jericho",
+    "Petra"
+   ]
+  },
+  {
+   "id": "re34",
+   "q": "In 1492, Spain's Alhambra Decree ordered the expulsion of which group?",
+   "a": "Jews",
+   "accept": [
+    "Jewish people",
+    "the Jews",
+    "Spanish Jews"
+   ],
+   "wrong": [
+    "Muslims",
+    "Protestants",
+    "Roma"
+   ]
+  },
+  {
+   "id": "re35",
+   "q": "Which apostle is traditionally regarded as the first Bishop of Rome?",
+   "a": "Peter",
+   "accept": [
+    "Saint Peter",
+    "St Peter",
+    "St. Peter",
+    "Simon Peter"
+   ],
+   "wrong": [
+    "Paul",
+    "John",
+    "Andrew"
+   ]
+  },
+  {
+   "id": "re36",
+   "q": "Which Roman emperor issued the Edict of Milan in 313, granting tolerance to Christians?",
+   "a": "Constantine",
+   "accept": [
+    "Constantine I",
+    "Constantine the Great"
+   ],
+   "wrong": [
+    "Nero",
+    "Diocletian",
+    "Theodosius I"
+   ]
+  },
+  {
+   "id": "re37",
+   "q": "Which Roman emperor made Nicene Christianity the state religion in 380?",
+   "a": "Theodosius I",
+   "accept": [
+    "Theodosius",
+    "Theodosius the Great"
+   ],
+   "wrong": [
+    "Constantine",
+    "Justinian",
+    "Julian"
+   ]
+  },
+  {
+   "id": "re38",
+   "q": "In which year did the Council of Nicaea, which produced the Nicene Creed, meet?",
+   "a": "325",
+   "accept": [
+    "325 CE",
+    "325 AD",
+    "AD 325"
+   ],
+   "wrong": [
+    "313",
+    "381",
+    "451"
+   ]
+  },
+  {
+   "id": "re39",
+   "q": "Who translated the Bible into Latin, the version known as the Vulgate?",
+   "a": "Jerome",
+   "accept": [
+    "Saint Jerome",
+    "St Jerome",
+    "St. Jerome"
+   ],
+   "wrong": [
+    "Augustine",
+    "Ambrose",
+    "Gregory the Great"
+   ]
+  },
+  {
+   "id": "re40",
+   "q": "Which saint's Rule shaped monastic life in Western Europe?",
+   "a": "Benedict of Nursia",
+   "accept": [
+    "Benedict",
+    "Saint Benedict",
+    "St Benedict",
+    "St. Benedict"
+   ],
+   "wrong": [
+    "Augustine of Hippo",
+    "Francis of Assisi",
+    "Jerome"
+   ]
+  },
+  {
+   "id": "re41",
+   "q": "In which year did the Great Schism divide the Eastern and Western churches?",
+   "a": "1054",
+   "wrong": [
+    "988",
+    "1066",
+    "1204"
+   ]
+  },
+  {
+   "id": "re42",
+   "q": "The Great Schism of 1054 split Christianity into which two churches?",
+   "a": "Catholic and Eastern Orthodox",
+   "accept": [
+    "Catholic and Orthodox",
+    "Roman Catholic and Eastern Orthodox"
+   ],
+   "wrong": [
+    "Catholic and Protestant",
+    "Orthodox and Coptic",
+    "Anglican and Catholic"
+   ],
+   "type": false
+  },
+  {
+   "id": "re43",
+   "q": "Which pope launched the First Crusade in 1095?",
+   "a": "Urban II",
+   "accept": [
+    "Pope Urban II"
+   ],
+   "wrong": [
+    "Gregory VII",
+    "Innocent III",
+    "Leo X"
+   ]
+  },
+  {
+   "id": "re44",
+   "q": "During which Crusade did the Crusaders capture Jerusalem in 1099?",
+   "a": "First Crusade",
+   "accept": [
+    "First",
+    "1st Crusade",
+    "the First Crusade"
+   ],
+   "wrong": [
+    "Second Crusade",
+    "Third Crusade",
+    "Fourth Crusade"
+   ]
+  },
+  {
+   "id": "re45",
+   "q": "Which sultan retook Jerusalem from the Crusaders in 1187?",
+   "a": "Saladin",
+   "accept": [
+    "Salah ad-Din",
+    "Salahuddin",
+    "Salah al-Din"
+   ],
+   "wrong": [
+    "Baibars",
+    "Suleiman the Magnificent",
+    "Nur ad-Din"
+   ]
+  },
+  {
+   "id": "re46",
+   "q": "Who founded the Franciscan order?",
+   "a": "Francis of Assisi",
+   "accept": [
+    "Saint Francis",
+    "St Francis",
+    "St. Francis",
+    "Francis"
+   ],
+   "wrong": [
+    "Dominic",
+    "Benedict of Nursia",
+    "Ignatius of Loyola"
+   ]
+  },
+  {
+   "id": "re47",
+   "q": "Who founded the Jesuits, the Society of Jesus?",
+   "a": "Ignatius of Loyola",
+   "accept": [
+    "Ignatius",
+    "Saint Ignatius",
+    "St Ignatius",
+    "Ignatius Loyola"
+   ],
+   "wrong": [
+    "Benedict of Nursia",
+    "Dominic",
+    "Francis of Assisi"
+   ]
+  },
+  {
+   "id": "re48",
+   "q": "Saint Patrick is the patron saint of which country?",
+   "a": "Ireland",
+   "wrong": [
+    "Scotland",
+    "Wales",
+    "England"
+   ]
+  },
+  {
+   "id": "re49",
+   "q": "Who printed a famous Bible using movable metal type in Europe, around 1455?",
+   "a": "Johannes Gutenberg",
+   "accept": [
+    "Gutenberg"
+   ],
+   "wrong": [
+    "William Caxton",
+    "Aldus Manutius",
+    "Martin Luther"
+   ]
+  },
+  {
+   "id": "re50",
+   "q": "In which year did Martin Luther post his Ninety-five Theses?",
+   "a": "1517",
+   "wrong": [
+    "1492",
+    "1534",
+    "1555"
+   ]
+  },
+  {
+   "id": "re51",
+   "q": "In which German town did Martin Luther post his Ninety-five Theses?",
+   "a": "Wittenberg",
+   "wrong": [
+    "Worms",
+    "Geneva",
+    "Augsburg"
+   ]
+  },
+  {
+   "id": "re52",
+   "q": "Which pope excommunicated Martin Luther?",
+   "a": "Leo X",
+   "accept": [
+    "Pope Leo X"
+   ],
+   "wrong": [
+    "Julius II",
+    "Clement VII",
+    "Paul III"
+   ]
+  },
+  {
+   "id": "re53",
+   "q": "Who translated the Bible into German in the 1500s?",
+   "a": "Martin Luther",
+   "accept": [
+    "Luther"
+   ],
+   "wrong": [
+    "John Calvin",
+    "Erasmus",
+    "William Tyndale"
+   ]
+  },
+  {
+   "id": "re54",
+   "q": "Which reformer led the Protestant Reformation in Geneva?",
+   "a": "John Calvin",
+   "accept": [
+    "Calvin"
+   ],
+   "wrong": [
+    "Martin Luther",
+    "Huldrych Zwingli",
+    "John Knox"
+   ]
+  },
+  {
+   "id": "re55",
+   "q": "Which English king broke with Rome to create the Church of England?",
+   "a": "Henry VIII",
+   "accept": [
+    "King Henry VIII",
+    "Henry the Eighth"
+   ],
+   "wrong": [
+    "Henry VII",
+    "Edward VI",
+    "James I"
+   ]
+  },
+  {
+   "id": "re56",
+   "q": "Which king commissioned the English Bible translation published in 1611?",
+   "a": "James I",
+   "accept": [
+    "King James",
+    "James VI and I",
+    "James VI",
+    "King James I"
+   ],
+   "wrong": [
+    "Henry VIII",
+    "Charles I",
+    "Edward VI"
+   ]
+  },
+  {
+   "id": "re57",
+   "q": "In which year was the Spanish Inquisition established?",
+   "a": "1478",
+   "wrong": [
+    "1378",
+    "1492",
+    "1517"
+   ]
+  },
+  {
+   "id": "re58",
+   "q": "Methodism grew out of the preaching of which English cleric?",
+   "a": "John Wesley",
+   "accept": [
+    "Wesley"
+   ],
+   "wrong": [
+    "John Calvin",
+    "George Fox",
+    "John Knox"
+   ]
+  },
+  {
+   "id": "re59",
+   "q": "Who founded the Quakers, the Religious Society of Friends?",
+   "a": "George Fox",
+   "accept": [
+    "Fox"
+   ],
+   "wrong": [
+    "John Wesley",
+    "John Knox",
+    "Roger Williams"
+   ]
+  },
+  {
+   "id": "re60",
+   "q": "Who founded the Church of Jesus Christ of Latter-day Saints in 1830?",
+   "a": "Joseph Smith",
+   "accept": [
+    "Joseph Smith Jr.",
+    "Joseph Smith Jr"
+   ],
+   "wrong": [
+    "Brigham Young",
+    "John Wesley",
+    "Ellen G. White"
+   ]
+  },
+  {
+   "id": "re61",
+   "q": "In which decade did the Catholic Church hold the Second Vatican Council?",
+   "a": "1960s",
+   "accept": [
+    "the 1960s",
+    "sixties",
+    "the sixties"
+   ],
+   "wrong": [
+    "1920s",
+    "1940s",
+    "1980s"
+   ]
+  }
+ ],
+ "popculture": [
+  {
+   "id": "po01",
+   "q": "Which band released the album \"Abbey Road\"?",
+   "a": "The Beatles",
+   "accept": [
+    "Beatles"
+   ],
+   "wrong": [
+    "The Rolling Stones",
+    "The Who",
+    "Pink Floyd"
+   ]
+  },
+  {
+   "id": "po02",
+   "q": "Who is known as the \"King of Pop\"?",
+   "a": "Michael Jackson",
+   "accept": [
+    "Jackson",
+    "MJ"
+   ],
+   "wrong": [
+    "Elvis Presley",
+    "Prince",
+    "Justin Timberlake"
+   ]
+  },
+  {
+   "id": "po03",
+   "q": "Who is known as the \"King of Rock and Roll\"?",
+   "a": "Elvis Presley",
+   "accept": [
+    "Elvis",
+    "Presley"
+   ],
+   "wrong": [
+    "Chuck Berry",
+    "Little Richard",
+    "Buddy Holly"
+   ]
+  },
+  {
+   "id": "po04",
+   "q": "Which band sang \"Bohemian Rhapsody\"?",
+   "a": "Queen",
+   "wrong": [
+    "Led Zeppelin",
+    "Aerosmith",
+    "The Who"
+   ]
+  },
+  {
+   "id": "po05",
+   "q": "Which band recorded \"Stairway to Heaven\"?",
+   "a": "Led Zeppelin",
+   "wrong": [
+    "Deep Purple",
+    "Black Sabbath",
+    "Pink Floyd"
+   ]
+  },
+  {
+   "id": "po06",
+   "q": "Which band released \"Smells Like Teen Spirit\"?",
+   "a": "Nirvana",
+   "wrong": [
+    "Pearl Jam",
+    "Soundgarden",
+    "Foo Fighters"
+   ]
+  },
+  {
+   "id": "po07",
+   "q": "Which British band released \"Wonderwall\"?",
+   "a": "Oasis",
+   "wrong": [
+    "Blur",
+    "Radiohead",
+    "Coldplay"
+   ]
+  },
+  {
+   "id": "po08",
+   "q": "Which group sang \"Dancing Queen\"?",
+   "a": "ABBA",
+   "wrong": [
+    "Bee Gees",
+    "Boney M.",
+    "Ace of Base"
+   ]
+  },
+  {
+   "id": "po09",
+   "q": "Which musician is nicknamed \"The Boss\"?",
+   "a": "Bruce Springsteen",
+   "accept": [
+    "Springsteen"
+   ],
+   "wrong": [
+    "Bob Dylan",
+    "Billy Joel",
+    "Tom Petty"
+   ]
+  },
+  {
+   "id": "po10",
+   "q": "Which rapper's real name is Marshall Mathers?",
+   "a": "Eminem",
+   "accept": [
+    "Slim Shady"
+   ],
+   "wrong": [
+    "Dr. Dre",
+    "50 Cent",
+    "Jay-Z"
+   ]
+  },
+  {
+   "id": "po11",
+   "q": "Who sang \"I Will Always Love You\" in the 1992 film \"The Bodyguard\"?",
+   "a": "Whitney Houston",
+   "accept": [
+    "Whitney",
+    "Houston"
+   ],
+   "wrong": [
+    "Mariah Carey",
+    "Céline Dion",
+    "Toni Braxton"
+   ]
+  },
+  {
+   "id": "po12",
+   "q": "Who sang \"Like a Prayer\"?",
+   "a": "Madonna",
+   "wrong": [
+    "Cyndi Lauper",
+    "Janet Jackson",
+    "Paula Abdul"
+   ]
+  },
+  {
+   "id": "po13",
+   "q": "Which singer released the albums \"19\", \"21\", \"25\" and \"30\"?",
+   "a": "Adele",
+   "wrong": [
+    "Amy Winehouse",
+    "Duffy",
+    "Ed Sheeran"
+   ]
+  },
+  {
+   "id": "po14",
+   "q": "Which singer released the album \"1989\" in 2014?",
+   "a": "Taylor Swift",
+   "accept": [
+    "Swift",
+    "Taylor"
+   ],
+   "wrong": [
+    "Katy Perry",
+    "Ariana Grande",
+    "Lady Gaga"
+   ]
+  },
+  {
+   "id": "po15",
+   "q": "Which K-pop group released \"Dynamite\" in 2020?",
+   "a": "BTS",
+   "accept": [
+    "Bangtan Boys",
+    "Bangtan Sonyeondan"
+   ],
+   "wrong": [
+    "Blackpink",
+    "EXO",
+    "Twice"
+   ]
+  },
+  {
+   "id": "po16",
+   "q": "Which artist had a global hit with \"Gangnam Style\" in 2012?",
+   "a": "Psy",
+   "wrong": [
+    "Rain",
+    "G-Dragon",
+    "Big Bang"
+   ]
+  },
+  {
+   "id": "po17",
+   "q": "Which TV talent show launched Kelly Clarkson's career in 2002?",
+   "a": "American Idol",
+   "wrong": [
+    "The Voice",
+    "America's Got Talent",
+    "The X Factor"
+   ]
+  },
+  {
+   "id": "po18",
+   "q": "Who directed the 1975 film \"Jaws\"?",
+   "a": "Steven Spielberg",
+   "accept": [
+    "Spielberg"
+   ],
+   "wrong": [
+    "George Lucas",
+    "Martin Scorsese",
+    "Francis Ford Coppola"
+   ]
+  },
+  {
+   "id": "po19",
+   "q": "Who directed \"Pulp Fiction\"?",
+   "a": "Quentin Tarantino",
+   "accept": [
+    "Tarantino"
+   ],
+   "wrong": [
+    "Martin Scorsese",
+    "Guy Ritchie",
+    "David Fincher"
+   ]
+  },
+  {
+   "id": "po20",
+   "q": "Which film won the first Academy Award for Best Picture?",
+   "a": "Wings",
+   "wrong": [
+    "The Jazz Singer",
+    "Metropolis",
+    "Ben-Hur"
+   ]
+  },
+  {
+   "id": "po21",
+   "q": "Which South Korean film was the first non-English-language winner of the Oscar for Best Picture?",
+   "a": "Parasite",
+   "wrong": [
+    "Roma",
+    "Oldboy",
+    "Minari"
+   ]
+  },
+  {
+   "id": "po22",
+   "q": "Who played Jack Dawson in \"Titanic\" (1997)?",
+   "a": "Leonardo DiCaprio",
+   "accept": [
+    "DiCaprio",
+    "Leo DiCaprio"
+   ],
+   "wrong": [
+    "Brad Pitt",
+    "Matt Damon",
+    "Johnny Depp"
+   ]
+  },
+  {
+   "id": "po23",
+   "q": "Which film features the line \"May the Force be with you\"?",
+   "a": "Star Wars",
+   "accept": [
+    "Star Wars: A New Hope",
+    "A New Hope"
+   ],
+   "wrong": [
+    "Star Trek",
+    "Dune",
+    "The Matrix"
+   ]
+  },
+  {
+   "id": "po24",
+   "q": "In \"Star Wars\", who is Luke Skywalker's father?",
+   "a": "Darth Vader",
+   "accept": [
+    "Anakin Skywalker",
+    "Anakin",
+    "Vader"
+   ],
+   "wrong": [
+    "Obi-Wan Kenobi",
+    "Emperor Palpatine",
+    "Han Solo"
+   ]
+  },
+  {
+   "id": "po25",
+   "q": "Which film features Arnold Schwarzenegger saying \"I'll be back\"?",
+   "a": "The Terminator",
+   "accept": [
+    "Terminator"
+   ],
+   "wrong": [
+    "RoboCop",
+    "Predator",
+    "Total Recall"
+   ]
+  },
+  {
+   "id": "po26",
+   "q": "Which British spy has the code number 007?",
+   "a": "James Bond",
+   "accept": [
+    "Bond"
+   ],
+   "wrong": [
+    "Jason Bourne",
+    "Ethan Hunt",
+    "George Smiley"
+   ]
+  },
+  {
+   "id": "po27",
+   "q": "Who created Mickey Mouse with animator Ub Iwerks?",
+   "a": "Walt Disney",
+   "accept": [
+    "Disney"
+   ],
+   "wrong": [
+    "Walter Lantz",
+    "Chuck Jones",
+    "Max Fleischer"
+   ]
+  },
+  {
+   "id": "po28",
+   "q": "What is the name of Mickey Mouse's pet dog?",
+   "a": "Pluto",
+   "wrong": [
+    "Odie",
+    "Snoopy",
+    "Scooby-Doo"
+   ]
+  },
+  {
+   "id": "po29",
+   "q": "Which comic strip stars Charlie Brown and Snoopy?",
+   "a": "Peanuts",
+   "wrong": [
+    "Garfield",
+    "Calvin and Hobbes",
+    "Dilbert"
+   ]
+  },
+  {
+   "id": "po30",
+   "q": "What is the name of the cowboy toy in \"Toy Story\"?",
+   "a": "Woody",
+   "accept": [
+    "Sheriff Woody"
+   ],
+   "wrong": [
+    "Buzz Lightyear",
+    "Jessie",
+    "Slinky"
+   ]
+  },
+  {
+   "id": "po31",
+   "q": "Which Pixar film follows a rat who dreams of being a chef?",
+   "a": "Ratatouille",
+   "wrong": [
+    "Up",
+    "Cars",
+    "Coco"
+   ]
+  },
+  {
+   "id": "po32",
+   "q": "Which animated film features the song \"Let It Go\"?",
+   "a": "Frozen",
+   "wrong": [
+    "Moana",
+    "Tangled",
+    "Encanto"
+   ]
+  },
+  {
+   "id": "po33",
+   "q": "What is the name of the snowman in \"Frozen\"?",
+   "a": "Olaf",
+   "wrong": [
+    "Sven",
+    "Kristoff",
+    "Hans"
+   ]
+  },
+  {
+   "id": "po34",
+   "q": "What is the name of the lion cub hero of \"The Lion King\"?",
+   "a": "Simba",
+   "wrong": [
+    "Mufasa",
+    "Scar",
+    "Nala"
+   ]
+  },
+  {
+   "id": "po35",
+   "q": "Which cartoon character lives in a pineapple under the sea?",
+   "a": "SpongeBob SquarePants",
+   "accept": [
+    "SpongeBob",
+    "Spongebob Squarepants",
+    "Sponge Bob"
+   ],
+   "wrong": [
+    "Patrick Star",
+    "Squidward Tentacles",
+    "Sandy Cheeks"
+   ]
+  },
+  {
+   "id": "po36",
+   "q": "In \"The Simpsons\", what is the name of the family's hometown?",
+   "a": "Springfield",
+   "wrong": [
+    "Shelbyville",
+    "Quahog",
+    "South Park"
+   ]
+  },
+  {
+   "id": "po37",
+   "q": "Which TV show follows chemistry teacher Walter White?",
+   "a": "Breaking Bad",
+   "wrong": [
+    "Dexter",
+    "The Wire",
+    "Ozark"
+   ]
+  },
+  {
+   "id": "po38",
+   "q": "Which HBO series, running from 2011 to 2019, was about the fight for the Iron Throne?",
+   "a": "Game of Thrones",
+   "accept": [
+    "GoT"
+   ],
+   "wrong": [
+    "The Witcher",
+    "Vikings",
+    "The Walking Dead"
+   ]
+  },
+  {
+   "id": "po39",
+   "q": "Which series is set in the fictional town of Hawkins, Indiana?",
+   "a": "Stranger Things",
+   "wrong": [
+    "Dark",
+    "The Umbrella Academy",
+    "Riverdale"
+   ]
+  },
+  {
+   "id": "po40",
+   "q": "In which city is the sitcom \"Friends\" set?",
+   "a": "New York City",
+   "accept": [
+    "New York",
+    "NYC",
+    "Manhattan"
+   ],
+   "wrong": [
+    "Los Angeles",
+    "Chicago",
+    "Boston"
+   ]
+  },
+  {
+   "id": "po41",
+   "q": "What is the name of the coffee shop in \"Friends\"?",
+   "a": "Central Perk",
+   "wrong": [
+    "Monk's Café",
+    "The Max",
+    "Luke's Diner"
+   ]
+  },
+  {
+   "id": "po42",
+   "q": "Who wrote the Harry Potter books?",
+   "a": "J. K. Rowling",
+   "accept": [
+    "Rowling",
+    "JK Rowling",
+    "J.K. Rowling"
+   ],
+   "wrong": [
+    "Roald Dahl",
+    "C. S. Lewis",
+    "Philip Pullman"
+   ]
+  },
+  {
+   "id": "po43",
+   "q": "Who is headmaster of Hogwarts for most of the Harry Potter series?",
+   "a": "Albus Dumbledore",
+   "accept": [
+    "Dumbledore"
+   ],
+   "wrong": [
+    "Minerva McGonagall",
+    "Rubeus Hagrid",
+    "Gilderoy Lockhart"
+   ]
+  },
+  {
+   "id": "po44",
+   "q": "What is the name of Harry Potter's owl?",
+   "a": "Hedwig",
+   "wrong": [
+    "Errol",
+    "Pigwidgeon",
+    "Fawkes"
+   ]
+  },
+  {
+   "id": "po45",
+   "q": "Who wrote \"The Lord of the Rings\"?",
+   "a": "J. R. R. Tolkien",
+   "accept": [
+    "Tolkien",
+    "JRR Tolkien",
+    "J.R.R. Tolkien"
+   ],
+   "wrong": [
+    "C. S. Lewis",
+    "George R. R. Martin",
+    "Terry Pratchett"
+   ]
+  },
+  {
+   "id": "po46",
+   "q": "Which superhero is secretly Bruce Wayne?",
+   "a": "Batman",
+   "wrong": [
+    "Superman",
+    "Iron Man",
+    "Green Arrow"
+   ]
+  },
+  {
+   "id": "po47",
+   "q": "Which superhero is secretly Peter Parker?",
+   "a": "Spider-Man",
+   "accept": [
+    "Spiderman",
+    "Spider Man"
+   ],
+   "wrong": [
+    "Ant-Man",
+    "Daredevil",
+    "Captain America"
+   ]
+  },
+  {
+   "id": "po48",
+   "q": "Which superhero team includes Iron Man, Thor and the Hulk?",
+   "a": "The Avengers",
+   "accept": [
+    "Avengers"
+   ],
+   "wrong": [
+    "Justice League",
+    "X-Men",
+    "Fantastic Four"
+   ]
+  },
+  {
+   "id": "po49",
+   "q": "Which actor played Iron Man in the Marvel films?",
+   "a": "Robert Downey Jr.",
+   "accept": [
+    "Robert Downey Jr",
+    "Robert Downey",
+    "Downey",
+    "RDJ"
+   ],
+   "wrong": [
+    "Chris Evans",
+    "Chris Hemsworth",
+    "Mark Ruffalo"
+   ]
+  },
+  {
+   "id": "po50",
+   "q": "What is the name of the fictional African nation in \"Black Panther\"?",
+   "a": "Wakanda",
+   "wrong": [
+    "Zamunda",
+    "Genovia",
+    "Latveria"
+   ]
+  },
+  {
+   "id": "po51",
+   "q": "Which film franchise follows Captain Jack Sparrow?",
+   "a": "Pirates of the Caribbean",
+   "wrong": [
+    "The Mummy",
+    "Indiana Jones",
+    "National Treasure"
+   ]
+  },
+  {
+   "id": "po52",
+   "q": "Which company created Mario?",
+   "a": "Nintendo",
+   "wrong": [
+    "Sega",
+    "Sony",
+    "Atari"
+   ]
+  },
+  {
+   "id": "po53",
+   "q": "What is the name of Sega's blue hedgehog mascot?",
+   "a": "Sonic",
+   "accept": [
+    "Sonic the Hedgehog"
+   ],
+   "wrong": [
+    "Shadow",
+    "Knuckles",
+    "Tails"
+   ]
+  },
+  {
+   "id": "po54",
+   "q": "What is the name of the princess Mario often rescues?",
+   "a": "Princess Peach",
+   "accept": [
+    "Peach",
+    "Princess Toadstool"
+   ],
+   "wrong": [
+    "Princess Daisy",
+    "Princess Zelda",
+    "Rosalina"
+   ]
+  },
+  {
+   "id": "po55",
+   "q": "In \"The Legend of Zelda\" games, what is the hero's name?",
+   "a": "Link",
+   "wrong": [
+    "Zelda",
+    "Ganon",
+    "Navi"
+   ]
+  },
+  {
+   "id": "po56",
+   "q": "Which Pokémon is Ash Ketchum's partner?",
+   "a": "Pikachu",
+   "wrong": [
+    "Eevee",
+    "Charmander",
+    "Jigglypuff"
+   ]
+  },
+  {
+   "id": "po57",
+   "q": "Which video game is built around falling blocks called Tetriminos?",
+   "a": "Tetris",
+   "wrong": [
+    "Columns",
+    "Dr. Mario",
+    "Puyo Puyo"
+   ]
+  },
+  {
+   "id": "po58",
+   "q": "In which game do players build with blocks and dodge exploding Creepers?",
+   "a": "Minecraft",
+   "wrong": [
+    "Roblox",
+    "Terraria",
+    "Fortnite"
+   ]
+  },
+  {
+   "id": "po59",
+   "q": "Which video game series stars the soldier Master Chief?",
+   "a": "Halo",
+   "wrong": [
+    "Gears of War",
+    "Call of Duty",
+    "Destiny"
+   ]
+  },
+  {
+   "id": "po60",
+   "q": "What does Pac-Man eat to turn the ghosts blue?",
+   "a": "Power pellets",
+   "accept": [
+    "power pellet",
+    "power pills",
+    "energizers",
+    "energizer"
+   ],
+   "wrong": [
+    "Cherries",
+    "Keys",
+    "Bells"
+   ]
+  },
+  {
+   "id": "po61",
+   "q": "Which short-video app was launched internationally by ByteDance?",
+   "a": "TikTok",
+   "accept": [
+    "Tik Tok",
+    "Douyin"
+   ],
+   "wrong": [
+    "Snapchat",
+    "Vine",
+    "Instagram"
+   ]
+  }
+ ]
+}

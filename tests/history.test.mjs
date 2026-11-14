@@ -28,7 +28,10 @@ function game({ mode = 'capital-choice', codes = ['FR', 'DE', 'IT', 'ES'], misse
 }
 
 test('settings default to 10 standard questions in the system theme, and reject bad values', () => {
-  const modes = { capitals: 'capital-choice', flags: 'flag-name', languages: 'language-choice', writing: 'writing-pick' };
+  const modes = {
+    capitals: 'capital-choice', flags: 'flag-name', languages: 'language-choice', writing: 'writing-pick',
+    sports: 'sports-choice', history: 'history-choice', religion: 'religion-choice', popculture: 'pop-choice',
+  };
   const defaults = { length: 10, style: 'standard', theme: 'system', modes };
   const storage = fakeStorage();
   assert.deepEqual(readSettings(storage), defaults);

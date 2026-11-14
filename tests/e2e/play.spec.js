@@ -4,7 +4,10 @@ import { expect, test } from '@playwright/test';
 const load = (name) => JSON.parse(readFileSync(new URL(`../../data/${name}.json`, import.meta.url), 'utf8'));
 const countries = load('countries');
 
-const CATEGORY_OF = { capital: 'capitals', flag: 'flags', language: 'languages', writing: 'writing' };
+const CATEGORY_OF = {
+  capital: 'capitals', flag: 'flags', language: 'languages', writing: 'writing',
+  sports: 'sports', history: 'history', religion: 'religion', pop: 'popculture',
+};
 
 // Starts a game from the home screen, choosing it in Settings first if its category
 // is set to a different game mode.
@@ -26,6 +29,10 @@ const MODES = [
   'flag-name', 'flag-pick', 'flag-tf', 'flag-type',
   'language-choice', 'language-tf', 'language-type',
   'writing-pick', 'writing-name', 'writing-tf',
+  'sports-choice', 'sports-tf', 'sports-type',
+  'history-choice', 'history-tf', 'history-type',
+  'religion-choice', 'religion-tf', 'religion-type',
+  'pop-choice', 'pop-tf', 'pop-type',
 ];
 
 test.beforeEach(async ({ page }) => {
@@ -109,8 +116,11 @@ test('installs as a home screen app', async ({ page, request }) => {
 });
 
 test('game modes are chosen per category in Settings, and home starts the chosen one', async ({ page }) => {
-  await expect(page.locator('.category-row .row-title')).toHaveText(['Capitals', 'Flags', 'Languages', 'Writing']);
-  await expect(page.locator('.category-row .row-sub')).toHaveText(['Multiple choice', 'Name the flag', 'Multiple choice', 'Find the writing']);
+  await expect(page.locator('.group-label')).toHaveText(['Geography', 'General knowledge']);
+  await expect(page.locator('.category-row .row-title')).toHaveText([
+    'Capitals', 'Flags', 'Languages', 'Writing', 'Sports', 'World history', 'Religious history', 'Pop culture',
+  ]);
+  await expect(page.locator('.category-row .row-sub').first()).toHaveText('Multiple choice');
 
   await page.getByRole('button', { name: 'Menu' }).click();
   await page.getByRole('menuitem', { name: 'Settings' }).click();
@@ -129,4 +139,26 @@ test('game modes are chosen per category in Settings, and home starts the chosen
   await page.reload();
   await page.locator('.category-row[data-category="flags"]').click();
   await expect(page.locator('.quiz-title')).toHaveText('Flags · True or false');
+});
+
+test('trivia true or false shows the proposed answer, and type-it accepts other spellings', async ({ page }) => {
+  await openMode(page, 'history-tf');
+  await expect(page.locator('.claim-label')).toHaveText('Proposed answer');
+  await expect(page.locator('.claim-text')).not.toBeEmpty();
+  await page.locator('.option').first().click();
+  await expect(page.locator('.feedback-fact')).toContainText('The answer is');
+  page.once('dialog', (dialog) => dialog.accept());
+  await page.getByRole('button', { name: 'Quit round' }).click();
+
+  const trivia = load('trivia');
+  await openMode(page, 'pop-type');
+  for (let i = 0; i < 3; i++) {
+    const prompt = await page.locator('.prompt h2').innerText();
+    const item = trivia.popculture.find((q) => q.q === prompt);
+    const spelling = item.accept?.[0] ?? item.a;
+    await page.locator('.type-input').fill(spelling.toLowerCase());
+    await page.getByRole('button', { name: 'Check' }).click();
+    await expect(page.locator('.feedback-headline')).toHaveText('Correct!');
+    await page.locator('.feedback .button-primary').click();
+  }
 });

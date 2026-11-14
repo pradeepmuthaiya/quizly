@@ -5,8 +5,9 @@ no runtime dependencies, and it works offline after the first visit.
 
 ## Games
 
-Rounds are 10, 25 or 50 questions, drawn from 197 countries (193 UN members plus Vatican City,
-Palestine, Kosovo and Taiwan).
+Rounds are 10, 25 or 50 questions. Geography questions are drawn from 197 countries (193 UN members
+plus Vatican City, Palestine, Kosovo and Taiwan); general-knowledge questions come from a bank of
+about 60 hand-written questions per category.
 
 | Category | Modes |
 | --- | --- |
@@ -14,6 +15,7 @@ Palestine, Kosovo and Taiwan).
 | Flags | Name the flag, find the flag, true or false, type it |
 | Languages | Multiple choice, true or false, type it |
 | Writing | Find the writing, name the language, true or false |
+| Sports, World history, Religious history, Pop culture | Multiple choice, true or false, type it |
 
 ### Settings
 
@@ -62,6 +64,12 @@ Updates reach the phone automatically the next time the app opens online.
 
 - `data/countries.json`: names, capitals, regions and languages. Edit by hand.
 - `data/languages.json`: language names and accepted spellings. Edit by hand.
+- `data/trivia.json`: the general-knowledge questions. Edit by hand. Each has a question (`q`), its
+  answer (`a`), other spellings accepted when typed (`accept`), exactly three wrong answers
+  (`wrong`), and `"type": false` if it doesn't suit typing. Ids are permanent because saved progress
+  refers to them: add new questions with new ids, and don't reuse a removed one. `npm test` checks
+  every question, including that each accepted spelling is marked right when typed and each wrong
+  answer is marked wrong.
 - `data/samples.json`: generated, don't edit. Article 1 of the Universal Declaration of Human
   Rights in each language. Rebuild it with `scripts/build_samples.py`, whose header says where to
   get the corpus.

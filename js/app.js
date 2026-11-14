@@ -1,6 +1,6 @@
 // The interface: renders the home, quiz, results and progress screens.
 import { attachLineChart, lineChartHtml, sparklineHtml } from './chart.js';
-import { CATEGORIES, buildQuestion, buildRound, findMode, prepareData } from './game.js';
+import { CATEGORIES, buildQuestion, buildRound, findMode, findSubject, prepareData } from './game.js';
 import {
   LENGTHS, appendGame, bestScores, clearHistory, exportHistory, importHistory, makeGameRecord,
   modeSummaries, readHistory, readSettings, saveSettings, share, summarize, troubleSpots,
@@ -30,6 +30,7 @@ const storage = (() => {
 
 let data = null;
 let byCode = new Map();
+let triviaById = new Map();
 let settings = readSettings(storage);
 let round = null;
 let view = { name: 'home' };
@@ -78,6 +79,10 @@ const ICONS = {
   flags: '<path d="M5 21V4M5 4h12l-2.5 4.5L17 13H5"/>',
   languages: '<path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12z"/>',
   writing: '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/>',
+  sports: '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 6h3v1a3 3 0 0 1-3 3M7 6H4v1a3 3 0 0 0 3 3"/>',
+  history: '<path d="M3.5 12a8.5 8.5 0 1 0 2.5-6"/><path d="M3 3.5V8h4.5"/><path d="M12 7.5V12l3 2"/>',
+  religion: '<path d="M3 5h6a3 3 0 0 1 3 3v12a2.5 2.5 0 0 0-2.5-2.5H3z"/><path d="M21 5h-6a3 3 0 0 0-3 3v12a2.5 2.5 0 0 1 2.5-2.5H21z"/>',
+  popculture: '<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/>',
 };
 const icon = (name, className = 'icon') => `<svg class="${className}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[name]}</svg>`;
 
@@ -112,7 +117,7 @@ function renderHome() {
   view = { name: 'home' };
   const best = bestScores(readHistory(storage), storage);
   const { length } = settings;
-  const categories = CATEGORIES.map((category) => {
+  const categoryRow = (category) => {
     const modeId = settings.modes[category.id];
     const { mode } = findMode(modeId);
     const score = best.get(`${modeId}|${length}`);
@@ -126,7 +131,7 @@ function renderHome() {
       ${score === undefined ? '' : `<span class="row-value mode-best" aria-label="Best score ${score} of ${length}">${score}/${length}</span>`}
       ${icon('chevron', 'icon chevron')}
     </button>`;
-  }).join('');
+  };
 
   show(`
     <header class="app-bar">
@@ -134,10 +139,8 @@ function renderHome() {
       <button class="icon-button menu-button" data-action="menu" aria-label="Menu" aria-haspopup="menu" aria-expanded="false">${icon('menu')}</button>
     </header>
     <p class="home-meta">${length} questions · ${escapeHtml(STYLE_LABELS[settings.style])}</p>
-    <section class="group">
-      <div class="card">${categories}</div>
-      <p class="group-note">Change the game mode for each category in Settings.</p>
-    </section>
+    ${categoryGroups(categoryRow)}
+    <p class="group-note home-note">Change the game mode for each category in Settings.</p>
     <div class="menu-layer" hidden>
       <div class="menu-backdrop" data-action="close-menu"></div>
       <div class="menu" role="menu" aria-label="Menu">
@@ -145,6 +148,17 @@ function renderHome() {
         <button class="menu-item" role="menuitem" data-action="progress">${icon('progress')}Progress</button>
       </div>
     </div>`);
+}
+
+const GROUPS = [...new Set(CATEGORIES.map((category) => category.group))];
+
+// One labelled card per group (Geography, General knowledge), each category a row.
+function categoryGroups(rowHtml) {
+  return GROUPS.map((group) => `
+    <section class="group">
+      <h2 class="group-label">${escapeHtml(group)}</h2>
+      <div class="card">${CATEGORIES.filter((category) => category.group === group).map(rowHtml).join('')}</div>
+    </section>`).join('');
 }
 
 function setMenuOpen(open) {
@@ -172,29 +186,27 @@ function segmentedRow(action, label, options, selected) {
 
 function renderSettings() {
   view = { name: 'settings' };
-  const modeRows = CATEGORIES.map((category) => `
+  const modeRow = (category) => `
     <button class="row category-row" data-action="pick-mode" data-category="${category.id}">
       <span class="row-icon" aria-hidden="true">${icon(category.id)}</span>
       <span class="row-main"><span class="row-title">${escapeHtml(category.title)}</span></span>
       <span class="row-value">${escapeHtml(findMode(settings.modes[category.id]).mode.title)}</span>
       ${icon('chevron', 'icon chevron')}
-    </button>`).join('');
+    </button>`;
   show(`
     ${navBar('Settings', 'home')}
+    <h2 class="section-title">Game mode</h2>
+    ${categoryGroups(modeRow)}
+    <h2 class="section-title">Rounds</h2>
     <section class="group">
-      <h2 class="group-label">Game mode</h2>
-      <div class="card">${modeRows}</div>
-    </section>
-    <section class="group">
-      <h2 class="group-label">Rounds</h2>
       <div class="card">
         ${segmentedRow('set-length', 'Questions', LENGTHS.map((value) => [value, value]), settings.length)}
         ${segmentedRow('set-style', 'Round style', Object.entries(STYLE_LABELS), settings.style)}
       </div>
       <p class="group-note setting-hint">${escapeHtml(STYLE_HINTS[settings.style])}</p>
     </section>
+    <h2 class="section-title">Appearance</h2>
     <section class="group">
-      <h2 class="group-label">Appearance</h2>
       <div class="card">
         ${segmentedRow('set-theme', 'Theme', Object.entries(THEME_LABELS), settings.theme)}
       </div>
@@ -260,6 +272,7 @@ function promptHtml(question) {
       ${prompt.flag ? `<div class="flag-hero" role="img" aria-label="Flag">${prompt.flag}</div>` : ''}
       ${prompt.sample ? `<blockquote class="sample-hero">${sampleHtml(prompt.sample)}</blockquote>` : ''}
       <h2>${escapeHtml(prompt.text)}</h2>
+      ${prompt.claim ? `<p class="claim"><span class="claim-label">Proposed answer</span><span class="claim-text">${escapeHtml(prompt.claim)}</span></p>` : ''}
     </div>`;
 }
 
@@ -366,7 +379,7 @@ function renderQuestion() {
 }
 
 function rebuild(question) {
-  return buildQuestion(question.modeId, byCode.get(question.code), data, Math.random);
+  return buildQuestion(question.modeId, findSubject(question.modeId, question.code, data), data, Math.random);
 }
 
 function recordAnswer(correct, details = {}) {
@@ -504,9 +517,21 @@ function spotAnswer(spot, country) {
 
 function troubleHtml(spots) {
   if (!spots.length) {
-    return '<div class="card"><div class="row empty-row">Nothing right now. Countries you miss show up here until you get them right.</div></div>';
+    return '<div class="card"><div class="row empty-row">Nothing right now. Questions you miss show up here until you get them right.</div></div>';
   }
   return `<div class="card">${spots.map((spot) => {
+    const item = triviaById.get(spot.code);
+    if (item) {
+      return `
+      <div class="row spot">
+        <span class="row-icon" aria-hidden="true">${icon(spot.categoryId)}</span>
+        <span class="row-main">
+          <span class="row-title">${escapeHtml(item.q)}</span>
+          <span class="row-sub">Answer: ${escapeHtml(item.a)}</span>
+        </span>
+        <span class="row-value">missed ${spot.missed} of ${spot.seen}</span>
+      </div>`;
+    }
     const country = byCode.get(spot.code);
     if (!country) return '';
     const sample = spot.categoryId === 'writing' ? data.samples[country.sampleKey ?? country.language] : null;
@@ -745,11 +770,12 @@ async function loadJson(path) {
 
 async function start() {
   try {
-    const [countries, languages, samples] = await Promise.all(
-      ['countries', 'languages', 'samples'].map((name) => loadJson(`data/${name}.json`)),
+    const [countries, languages, samples, trivia] = await Promise.all(
+      ['countries', 'languages', 'samples', 'trivia'].map((name) => loadJson(`data/${name}.json`)),
     );
-    data = prepareData({ countries, languages, samples });
+    data = prepareData({ countries, languages, samples, trivia });
     byCode = new Map(data.countries.map((country) => [country.code, country]));
+    triviaById = new Map(Object.values(trivia).flat().map((item) => [item.id, item]));
     renderHome();
   } catch (error) {
     console.error(error);

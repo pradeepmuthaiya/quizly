@@ -16,6 +16,7 @@ const ASSETS = [
   'data/countries.json',
   'data/languages.json',
   'data/samples.json',
+  'data/trivia.json',
   'icons/icon.svg',
   'icons/icon-180.png',
   'icons/icon-192.png',

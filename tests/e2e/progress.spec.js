@@ -28,7 +28,10 @@ async function typeCapital(page, right) {
 
 const next = (page) => page.locator('.feedback .button-primary').click();
 
-const CATEGORY_OF = { capital: 'capitals', flag: 'flags', language: 'languages', writing: 'writing' };
+const CATEGORY_OF = {
+  capital: 'capitals', flag: 'flags', language: 'languages', writing: 'writing',
+  sports: 'sports', history: 'history', religion: 'religion', pop: 'popculture',
+};
 
 // Starts a game from the home screen, choosing it in Settings first if its category
 // is set to a different game mode.
